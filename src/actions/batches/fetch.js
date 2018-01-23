@@ -10,7 +10,7 @@ import {
 // import { BATCH_STUDENTS_UPDATED } from './subscribe'
 
 export const FETCHED_BATCHES = 'FETCHED_BATCHES'
-// export const FETCHED_ONE_BATCH = 'FETCHED_ONE_BATCH'
+export const FETCHED_ONE_BATCH = 'FETCHED_ONE_BATCH'
 
 const api = new API()
 
@@ -19,13 +19,13 @@ export const fetchBatches = () => {
     dispatch({ type: APP_LOADING })
 
     api.get('/batches')
-      .then((result) => {
+      .then((res) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
 
         dispatch({
           type: FETCHED_BATCHES,
-          payload: result.body
+          payload: res.body
         })
       })
       .catch((error) => {
@@ -65,26 +65,26 @@ export const fetchBatches = () => {
 //   }
 // }
 //
-// export const fetchOneGame = (gameId) => {
-//   return dispatch => {
-//     dispatch({ type: APP_LOADING })
-//
-//     api.get(`/batches/${gameId}`)
-//       .then((result) => {
-//         dispatch({ type: APP_DONE_LOADING })
-//         dispatch({ type: LOAD_SUCCESS })
-//
-//         dispatch({
-//           type: FETCHED_ONE_BATCH,
-//           payload: result.body
-//         })
-//       })
-//       .catch((error) => {
-//         dispatch({ type: APP_DONE_LOADING })
-//         dispatch({
-//           type: LOAD_ERROR,
-//           payload: error.message
-//         })
-//       })
-//   }
-// }
+export const fetchOneBatch = (batchId) => {
+  return dispatch => {
+    dispatch({ type: APP_LOADING })
+
+    api.get(`/batches/${batchId}`)
+      .then((res) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({ type: LOAD_SUCCESS })
+
+        dispatch({
+          type: FETCHED_ONE_BATCH,
+          payload: res.body
+        })
+      })
+      .catch((error) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({
+          type: LOAD_ERROR,
+          payload: error.message
+        })
+      })
+  }
+}

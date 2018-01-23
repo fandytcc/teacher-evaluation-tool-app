@@ -1,73 +1,44 @@
-// // src/recipes/RecipeItem.js
-// import React, { PureComponent } from 'react'
-// import PropTypes from 'prop-types'
-// import { connect } from 'react-redux'
-// import { Link } from 'react-router-dom'
-// import RecipeCategory from './RecipeCategory'
-// import LikeButton from '../components/LikeButton'
-// import { toggleLikeRecipe } from '../actions/recipes'
-// import Title from '../components/Title'
-// import './RecipeItem.css'
-//
-// const PLACEHOLDER = 'http://via.placeholder.com/500x180?text=No%20Image'
-//
-// export const recipeShape = PropTypes.shape({
-//     _id: PropTypes.string.isRequired,
-//     title: PropTypes.string.isRequired,
-//     summary: PropTypes.string.isRequired,
-//     photo: PropTypes.string,
-//     vegan: PropTypes.bool,
-//     vegetarian: PropTypes.bool,
-//     pescatarian: PropTypes.bool,
-//     liked: PropTypes.bool
-// })
-//
-// class RecipeItem extends PureComponent {
-//   static propTypes = {
-//     ...recipeShape.isRequired,
-//     toggleLikeRecipe: PropTypes.func.isRequired
-//   }
-//
-//   toggleLike = () => {
-//     const { _id } = this.props
-//     this.props.toggleLikeRecipe(_id)
-//   }
-//
-//   render() {
-//     const { title, summary, vegan, vegetarian, pescatarian, photo, liked, _id } = this.props
-//     const categories = { vegan, vegetarian, pescatarian }
-//
-//     return(
-//       <article className="RecipeItem">
-//         <header>
-//           <div
-//             className="cover"
-//             style={{ backgroundImage: `url(${photo || PLACEHOLDER })` }} />
-//
-//           <Link to={`/recipes/${_id}`}>
-//             <Title content={title} className="level-2" />
-//           </Link>
-//
-//           <ul className="categories">
-//             <RecipeCategory { ...categories } />
-//           </ul>
-//         </header>
-//         <div>
-//           <p>{ summary }</p>
-//         </div>
-//         <footer>
-//           <LikeButton
-//             onChange={this.toggleLike}
-//             liked={liked}
-//           />
-//         </footer>
-//       </article>
-//     )
-//   }
-// }
-//
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import Paper from 'material-ui/Paper'
+import Menu from 'material-ui/Menu'
+import MenuItem from 'material-ui/MenuItem'
+import StudentPage, { studentShape } from './StudentPage'
+
+const style = {
+  height: 300,
+  width: 300,
+  margin: 20,
+  textAlign: 'left',
+  display: 'inline-block',
+}
+
+class StudentItem extends PureComponent {
+  static propTypes = {
+    ...studentShape.isRequired,
+  }
+
+  render() {
+    const { _id, name, photo, evaluations } = this.props
+
+    return (
+      <Paper className="StudentItem" style={style} zDepth={2}>
+        <Menu>
+          <Link to={`/batches/${_id}/students/${_id}`}>
+            <MenuItem primaryText={ name }/>
+            { photo && <img src={ photo } alt="photo"/> }
+          </Link>
+          <p>latest color: { evaluations.code.pop() }</p>
+        </Menu>
+      </Paper>
+    )
+  }
+}
+
 // const mapDispatchToProps = {
-//   toggleLikeRecipe
-// }
 //
-// export default connect(null, mapDispatchToProps)(RecipeItem)
+// }
+
+export default StudentItem
