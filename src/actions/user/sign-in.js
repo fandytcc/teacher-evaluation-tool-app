@@ -7,7 +7,6 @@ import {
   LOAD_ERROR,
   LOAD_SUCCESS
 } from '../loading'
-import websocket from '../websocket'
 
 export const USER_SIGNED_IN = 'USER_SIGNED_IN'
 
@@ -26,10 +25,8 @@ export default ({ email, password}) => {
 
         api.storeToken(jwt)
 
-        // Redirect programatically to the Lobby
+        // Redirect programatically to home
         dispatch(replace('/'))
-
-        dispatch(websocket.connect())
 
         return api.get('/users/me')
       })
