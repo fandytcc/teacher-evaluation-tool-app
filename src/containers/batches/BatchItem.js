@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { batchShape } from './BatchPage'
 import Title from '../../components/UI/Title'
 // import { fetchOneGame, fetchStudents } from '../actions/batches/fetch'
 import Paper from 'material-ui/Paper'
@@ -17,6 +18,9 @@ const style = {
 };
 
 class BatchItem extends PureComponent {
+  static propTypes = {
+    ...batchShape.isRequired,
+}
 
   render() {
     const { _id, title, students } = this.props
@@ -33,13 +37,5 @@ class BatchItem extends PureComponent {
     )
   }
 }
-
-// const mapStateToProps = ({ batches }, { match }) => {
-//   const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
-//   const batchSize = batch.students.length
-//   return {
-//     batchSize
-//   }
-// }
 
 export default BatchItem

@@ -8,7 +8,7 @@ import MenuItem from 'material-ui/MenuItem'
 import StudentPage, { studentShape } from './StudentPage'
 
 const style = {
-  height: 300,
+  height: 400,
   width: 300,
   margin: 20,
   textAlign: 'left',
@@ -26,11 +26,11 @@ class StudentItem extends PureComponent {
     return (
       <Paper className="StudentItem" style={style} zDepth={2}>
         <Menu>
-          <Link to={`/batches/${_id}/students/${_id}`}>
+
             <MenuItem primaryText={ name }/>
             { photo && <img src={ photo } alt="photo"/> }
-          </Link>
-          <p>latest color: { evaluations.code.pop() }</p>
+
+          <p>latest color: { evaluations.code }</p>
         </Menu>
       </Paper>
     )
@@ -42,3 +42,6 @@ class StudentItem extends PureComponent {
 // }
 
 export default StudentItem
+
+// <Link to={`/batches/${_id}/students/${_id}`}>
+//  </Link>

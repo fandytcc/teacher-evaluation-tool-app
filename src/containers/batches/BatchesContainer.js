@@ -12,10 +12,10 @@ class BatchesContainer extends PureComponent {
   static propTypes = {
     batches: PropTypes.arrayOf(batchShape).isRequired,
   }
-  //
-  // componentWillMount() {
-  //   this.props.fetchBatches()
-  // }
+
+  componentWillMount() {
+    this.props.fetchBatches()
+  }
 
   renderBatch(batch, index) {
     return <BatchItem key={index} { ...batch } />

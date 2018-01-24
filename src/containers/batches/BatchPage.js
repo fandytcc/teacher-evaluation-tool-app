@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import StudentItem from '../../containers/students/StudentItem'
 import { studentShape } from '../../containers/students/StudentPage'
-import { fetchOneBatch } from '../../actions/batches/fetch'
+import { fetchBatches, fetchOneBatch } from '../../actions/batches/fetch'
 // import StudentEditor from './StudentEditor'
 import './BatchesContainer.css'
 
@@ -19,11 +19,11 @@ class BatchPage extends PureComponent {
   static propTypes = {
     ...batchShape.isRequired,
   }
-
-  // componentWillMount() {
-  //   //this.props.dispatch(fetchRecipes())
-  //   this.props.fetch() // see mapDispatchToProps below
-  // }
+  //
+  componentWillMount() {
+    // this.props.fetchBatches()
+    this.props.fetchOneBatch(this.props.match.params.batchId)
+  }
 
   renderStudent(student, index) {
     return <StudentItem key={index} { ...student } />
@@ -63,11 +63,16 @@ const mapStateToProps = ({ batches }, { match }) => {
   }, {})
 
   return {
-    ...batch,
-    batches,
+    ...batch
   }
 }
 
-export default connect(mapStateToProps, { fetchOneBatch })(BatchPage)
+// const mapStateToProps = ({ batches }, { match }) => {
+//   const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
+//   const batchSize = batch.students.length
+//   return {
+//     batchSize
+//   }
+// }
 
-// export default BatchPage
+export default connect(mapStateToProps, { fetchOneBatch })(BatchPage)

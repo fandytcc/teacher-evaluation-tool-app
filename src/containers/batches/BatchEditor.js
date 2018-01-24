@@ -77,20 +77,18 @@ class BatchEditor extends PureComponent {
           <div className="form">
             <DatePicker
               hintText="Start date"
-              openToYearSelection={true}
               ref="startDate"
               className="startDate"
-              value={this.state.startDate}            onChange={this.updateStartDate.bind(this)}
+              defaultValue={this.state.startDate}            onChange={this.updateStartDate.bind(this)}
               onKeyDown={this.updateStartDate.bind(this)} />
           </div>
 
           <div className="form">
             <DatePicker
               hintText="End date"
-              openToYearSelection={true}
               ref="endDate"
               className="endDate"
-              value={this.state.endDate}            onChange={this.updateEndDate.bind(this)}
+              defaultValue={this.state.endDate}            onChange={this.updateEndDate.bind(this)}
               onKeyDown={this.updateEndDate.bind(this)} />
           </div>
 

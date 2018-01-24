@@ -38,6 +38,30 @@ export const fetchBatches = () => {
   }
 }
 
+export const fetchOneBatch = (batchId) => {
+  return dispatch => {
+    dispatch({ type: APP_LOADING })
+
+    api.get(`/batches/${batchId}`)
+      .then((res) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({ type: LOAD_SUCCESS })
+
+        dispatch({
+          type: FETCHED_ONE_BATCH,
+          payload: res.body
+        })
+      })
+      .catch((error) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({
+          type: LOAD_ERROR,
+          payload: error.message
+        })
+      })
+  }
+}
+
 // export const fetchStudents = (batch) => {
 //   return dispatch => {
 //     dispatch({ type: APP_LOADING })
@@ -65,26 +89,3 @@ export const fetchBatches = () => {
 //   }
 // }
 //
-export const fetchOneBatch = (batchId) => {
-  return dispatch => {
-    dispatch({ type: APP_LOADING })
-
-    api.get(`/batches/${batchId}`)
-      .then((res) => {
-        dispatch({ type: APP_DONE_LOADING })
-        dispatch({ type: LOAD_SUCCESS })
-
-        dispatch({
-          type: FETCHED_ONE_BATCH,
-          payload: res.body
-        })
-      })
-      .catch((error) => {
-        dispatch({ type: APP_DONE_LOADING })
-        dispatch({
-          type: LOAD_ERROR,
-          payload: error.message
-        })
-      })
-  }
-}
