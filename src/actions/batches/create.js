@@ -1,5 +1,4 @@
 // src/actions/batches/create.js
-
 import API from '../../api/client'
 import {
   APP_LOADING,
@@ -15,7 +14,7 @@ export const createBatch = (newBatch) => {
     dispatch({ type: APP_LOADING })
 
     api.post('/batches', {})
-      .then(() => {
+      .then((result) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
       })

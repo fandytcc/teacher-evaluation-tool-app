@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import './StudentItem.css'
 // import StudentEvaluation, { evaluationShape } from './StudentEvaluation'
 
 // import { fetchRecipeById } from '../actions/recipes'
@@ -24,12 +25,14 @@ export class StudentPage extends PureComponent {
     const { _id, name, photo, evaluations } = this.props
     if (!_id) return null
 
+    const allColorCode = evaluations.map(evaluation => evaluation.code)
+
     return(
       <main>
         <div className="student-page">
           <p>{ name }</p>
-          <p>{ photo && <img src={ photo } alt="photo"/> }</p>
-          <p>{ evaluations.code }</p>
+          <p>{ photo && <img src={ photo } alt="Student Images"/> }</p>
+          <p>{ allColorCode }</p>
         </div>
         <div className="evaluation">
          <p>student evaluation form</p>

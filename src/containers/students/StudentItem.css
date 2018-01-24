@@ -1,0 +1,19 @@
+.block {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.G {
+  background: #9ed1a7;
+}
+
+.Y {
+  background: #f1f495;
+}
+
+.R {
+  background: #f24232;
+}
