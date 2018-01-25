@@ -7,7 +7,6 @@ import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import DatePicker from 'material-ui/DatePicker'
-// import './BatchEditor.css'
 
 const style = {
   height: 320,

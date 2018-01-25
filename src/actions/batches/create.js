@@ -7,6 +7,8 @@ import {
   LOAD_SUCCESS
 } from '../loading'
 
+export const BATCH_CREATED = 'BATCH_CREATED'
+
 const api = new API()
 
 export const createBatch = (newBatch) => {
@@ -14,9 +16,10 @@ export const createBatch = (newBatch) => {
     dispatch({ type: APP_LOADING })
 
     api.post('/batches', {})
-      .then((result) => {
+      .then(() => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
+        dispatch({ type: BATCH_CREATED })
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })
@@ -27,3 +30,10 @@ export const createBatch = (newBatch) => {
       })
   }
 }
+
+// export const createBatch = (newBatch) => {
+//   return {
+//     type: CREATE_BATCH,
+//     payload: newBatch
+//   }
+// }

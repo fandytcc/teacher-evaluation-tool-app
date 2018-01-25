@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom'
 
 import BatchesContainer from './containers/batches/BatchesContainer'
 import BatchPage from './containers/batches/BatchPage'
+import StudentPage from './containers/students/StudentPage'
 import StudentResult from './containers/students/StudentResult'
 import { SignIn, SignUp } from './containers'
 
@@ -21,6 +22,4 @@ export default class Routes extends Component {
     )
   }
 }
-
-
 // <Route path="/batches/:batchId/students/:studentId" component={StudentPage} />

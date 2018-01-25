@@ -6,10 +6,9 @@ import { push } from 'react-router-redux'
 import StudentItem from '../../containers/students/StudentItem'
 import { studentShape } from '../../containers/students/StudentPage'
 import { fetchOneBatch } from '../../actions/batches/fetch'
-// import StudentEditor from './StudentEditor'
+import StudentEditor from '../../containers/students/StudentEditor'
 import Paper from 'material-ui/Paper'
 import RaisedButton from 'material-ui/RaisedButton'
-import './BatchesContainer.css'
 import '../students/StudentItem.css'
 
 export const batchShape = PropTypes.shape({
@@ -65,17 +64,23 @@ class BatchPage extends PureComponent {
     const yellowStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "Y")
     const redStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "R")
 
-    let result=""
+    let result =""
+    let result2 = ""
       if (randomColor === "G") {
         const randomNum = this.getRandomNum(0, greenStudents.length-1)
-        return result = greenStudents[randomNum].name
+        result = greenStudents[randomNum].name
+        result2 = greenStudents[randomNum].photo
       } else if (randomColor === "Y") {
         const randomNum = this.getRandomNum(0, yellowStudents.length-1)
-        return result = yellowStudents[randomNum].name
+        result = yellowStudents[randomNum].name
+        result2 = greenStudents[randomNum].photo
       } else if (randomColor === "R") {
         const randomNum = this.getRandomNum(0, redStudents.length-1)
-        return result = redStudents[randomNum].name
+        result = redStudents[randomNum].name
+        result2 = greenStudents[randomNum].photo
       }
+      alert(result)
+      alert(result2)
   }
 
   render() {
@@ -86,37 +91,16 @@ class BatchPage extends PureComponent {
     const listOfLastColorCodes = students.map(student => student.evaluations[student.evaluations.length-1].code)
 
     const greenStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "G")
-    const yellowStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "Y")
     const redStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "R")
 
     const greenPercentage = greenStudents.length/batchSize*100
     const redPercentage = redStudents.length/batchSize*100
     const yellowPercentage = 100-greenPercentage-redPercentage
 
-    const yellowStudentNames = yellowStudents.map(student => student.name)
-
-    const colorList = ["G", "Y", "R"]
-    const weight = [0.21, 0.32, 0.47]
-    const weightedList = this.createWeightedList(colorList, weight)
-    const randomNum = this.getRandomNum(0, weightedList.length-1)
-    const randomColor = weightedList[randomNum]
-
-    let result=""
-      if (randomColor === "G") {
-        const randomNum = this.getRandomNum(0, greenStudents.length-1)
-        return result = greenStudents[randomNum].name
-      } else if (randomColor === "Y") {
-        const randomNum = this.getRandomNum(0, yellowStudents.length-1)
-        return result = yellowStudents[randomNum].name
-      } else if (randomColor === "R") {
-        const randomNum = this.getRandomNum(0, redStudents.length-1)
-        return result = redStudents[randomNum].name
-      }
-
     return (
       <article className="batch-page">
         <header>
-          <Paper className="result-wrapper">
+          <Paper className="result-wrapper" style={{ width: 600, display: 'inline-block' }}>
             <h2>Evaluation Overview in {title}</h2>
 
             <div style={{overflow:"hidden", whiteSpace:"nowrap"}} >
@@ -131,6 +115,7 @@ class BatchPage extends PureComponent {
 
             <p>random student name & photo</p>
             <p>{listOfLastColorCodes}</p>
+            <p>{this.getRandomStudent}</p>
 
             <div className="actions">
             <Link to="/random-result">
@@ -142,6 +127,10 @@ class BatchPage extends PureComponent {
             </Link>
             </div>
           </Paper>
+          
+          <div className="student-editor">
+            <StudentEditor />
+          </div>
         </header>
 
         <main className="students-wrapper">
@@ -167,13 +156,5 @@ const mapStateToProps = ({ batches }, { match }) => {
     ...batch
   }
 }
-
-// const mapStateToProps = ({ batches }, { match }) => {
-//   const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
-//   const batchSize = batch.students.length
-//   return {
-//     batchSize
-//   }
-// }
 
 export default connect(mapStateToProps, { fetchOneBatch, push })(BatchPage)

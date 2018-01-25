@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import muiTheme from './styles/theme'
 import Navigation from './components/UI/Navigation'
+import StudentPage from './containers/students/StudentPage'
 import Routes from './routes'
 
 class App extends Component {

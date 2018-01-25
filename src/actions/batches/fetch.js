@@ -1,5 +1,3 @@
-// src/actions/batches/fetch.js
-
 import API from '../../api/client'
 import {
   APP_LOADING,
@@ -7,10 +5,10 @@ import {
   LOAD_ERROR,
   LOAD_SUCCESS
 } from '../loading'
-// import { BATCH_STUDENTS_UPDATED } from './subscribe'
 
 export const FETCHED_BATCHES = 'FETCHED_BATCHES'
 export const FETCHED_ONE_BATCH = 'FETCHED_ONE_BATCH'
+export const FETCHED_ONE_STUDENT = 'FETCHED_ONE_STUDENT'
 
 const api = new API()
 
@@ -62,30 +60,29 @@ export const fetchOneBatch = (batchId) => {
   }
 }
 
-// export const fetchStudents = (batch) => {
-//   return dispatch => {
-//     dispatch({ type: APP_LOADING })
-//
-//     api.get(`/batches/${batch._id}/students`)
-//       .then((result) => {
-//         dispatch({ type: APP_DONE_LOADING })
-//         dispatch({ type: LOAD_SUCCESS })
-//
-//         dispatch({
-//           type: BATCH_STUDENTS_UPDATED,
-//           payload: {
-//             batch,
-//             students: result.body
-//           }
-//         })
-//       })
-//       .catch((error) => {
-//         dispatch({ type: APP_DONE_LOADING })
-//         dispatch({
-//           type: LOAD_ERROR,
-//           payload: error.message
-//         })
-//       })
-//   }
-// }
-//
+export const fetchOneStudent = (batch, studentId) => {
+  return dispatch => {
+    dispatch({ type: APP_LOADING })
+
+    api.get(`/batches/${batch._id}/students/${studentId}`)
+      .then((result) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({ type: LOAD_SUCCESS })
+
+        dispatch({
+          type: FETCHED_ONE_STUDENT,
+          payload: {
+            batch,
+            student: result.body
+          }
+        })
+      })
+      .catch((error) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({
+          type: LOAD_ERROR,
+          payload: error.message
+        })
+      })
+  }
+}

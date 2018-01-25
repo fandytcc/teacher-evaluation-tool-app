@@ -9,7 +9,7 @@ import StudentPage, { studentShape } from './StudentPage'
 import './StudentItem.css'
 
 const style = {
-  height: 400,
+  height: 450,
   width: 300,
   margin: 20,
   textAlign: 'left',
@@ -32,32 +32,27 @@ class StudentItem extends PureComponent {
   render() {
     const { _id, name, photo, evaluations } = this.props
 
-    const allColorCode = evaluations.map(evaluation => evaluation.code)
+    const allColorCodes = evaluations.map(evaluation => evaluation.code)
 
     return (
       <Paper className="StudentItem" style={style} zDepth={2}>
         <header>
-          <MenuItem primaryText={ name }/>
+          <Link to={`/batches/${_id}/students/${_id}`}>
+            <MenuItem primaryText={ name }/>
+          </Link>
         </header>
         <main>
           { photo && <img src={ photo } alt="photo"/> }
         </main>
         <footer>
-          <p>Latest color code
+          <p>Latest evaluation:
             <div className={this.classNames()}></div>
           </p>
-          <p>{ allColorCode }</p>
+          <p>All evaluations:{allColorCodes}</p>
         </footer>
       </Paper>
     )
   }
 }
 
-// const mapDispatchToProps = {
-//
-// }
-
 export default StudentItem
-
-// <Link to={`/batches/${_id}/students/${_id}`}>
-//  </Link>
