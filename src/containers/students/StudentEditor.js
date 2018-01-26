@@ -1,122 +1,101 @@
-// import React, { PureComponent } from 'react'
-// import Editor from 'react-medium-editor'
-// import toMarkdown from 'to-markdown'
-// import { connect } from 'react-redux'
-// import 'medium-editor/dist/css/medium-editor.css'
-// import 'medium-editor/dist/css/themes/default.css'
-// import { createRecipe } from '../actions/recipes'
-// import './RecipeEditor.css'
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { createStudent } from '../../actions/batches/create'
+import Title from '../../components/UI/Title'
+import Paper from 'material-ui/Paper'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
+
+const style = {
+  height: 300,
+  width: 350,
+  margin: 20,
+  textAlign: 'center',
+  display: 'inline-block',
+  position: 'relative',
+  bottom: 320,
+  right: 420,
+  float: 'right',
+  verticalAlign: 'top',
+};
+
+class StudentEditor extends PureComponent {
+  constructor(props) {
+    super()
+
+    const { name, photo } = props
+
+    this.state = {
+      name,
+      photo,
+    }
+  }
+
+  updateName(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault()
+      this.refs.summary.medium.elements[0].focus()
+    }
+    this.setState({
+      name: event.target.value
+    })
+  }
+
+  updatePhoto(event) {
+    this.setState({
+      photo: this.refs.photo.value
+    })
+  }
+
+  saveStudent() {
+    const student = { ...this.state }
+    this.props.createStudent(student)
+  }
+
+  render() {
+    return (
+      <Paper className="editor" style={style} zDepth={2}>
+        <Title content="Create New Student: " />
+
+        <form onSubmit={this.saveStudent.bind(this)} style={{ paddingLeft: 30 }}>
+          <div className="form">
+            <TextField
+              type="text"
+              ref="name"
+              className="name"
+              hintText="Fill in FULL name of a student"
+              defaultValue={this.state.name}
+              onChange={this.updateName.bind(this)}
+              onKeyDown={this.updateName.bind(this)} />
+          </div>
+
+          <div className="form">
+            <TextField
+              type="URL"
+              ref="photo"
+              className="photo"
+              hintText="Student Photo URL"
+              defaultValue={this.state.photo}
+              onChange={this.updatePhoto.bind(this)}
+              onKeyDown={this.updatePhoto.bind(this)} />
+          </div>
+
+          <div className="actions">
+            <RaisedButton
+              className="primary"
+              primary={true}
+              onClick={this.saveStudent.bind(this)}
+              label="Create Student"/>
+          </div>
+
+        </form>
+      </Paper>
+    )
+  }
+}
+
+// export default StudentEditor
 //
-// const TYPES = [
-//   'vegan',
-//   'vegetarian',
-//   'pescatarian'
-// ]
-//
-// class RecipeEditor extends PureComponent {
-//   constructor(props) {
-//     super()
-//
-//     const { title, summary, vegan, vegetarian, pescatarian, photo } = props
-//
-//     this.state = {
-//       title,
-//       summary,
-//       vegan,
-//       vegetarian,
-//       pescatarian,
-//       photo,
-//     }
-//   }
-//
-//   updateTitle(event) {
-//     if (event.keyCode === 13) {
-//       event.preventDefault()
-//       this.refs.summary.medium.elements[0].focus()
-//     }
-//     this.setState({
-//       title: this.refs.title.value
-//     })
-//   }
-//
-//   updatePhoto(event) {
-//     this.setState({
-//       photo: this.refs.photo.value
-//     })
-//   }
-//
-//   updateIntro(text, medium) {
-//     this.setState({
-//       summary: text
-//     })
-//   }
-//
-//   setType(event) {
-//     this.setState({
-//       vegan: event.target.value === 'vegan',
-//       vegetarian: event.target.value === 'vegetarian',
-//       pescatarian: event.target.value === 'pescatarian'
-//     })
-//   }
-//
-//   saveRecipe() {
-//     console.table(this.state)
-//
-//     const recipe = {
-//       ...this.state,
-//       summary: toMarkdown(this.state.summary),
-//       liked: false
-//     }
-//
-//     console.table(recipe)
-//
-//     this.props.createRecipe(recipe)
-//   }
-//
-//   render() {
-//     return (
-//       <div className="editor">
-//         <input
-//           type="text"
-//           ref="title"
-//           className="title"
-//           placeholder="Title"
-//           defaultValue={this.state.title}
-//           onChange={this.updateTitle.bind(this)}
-//           onKeyDown={this.updateTitle.bind(this)} />
-//
-//         <Editor
-//           ref="summary"
-//           options={{
-//             placeholder: {text: 'Write an Introduction...'}
-//           }}
-//           onChange={this.updateIntro.bind(this)}
-//           text={this.state.summary} />
-//
-//         <input
-//           type="text"
-//           ref="photo"
-//           className="photo"
-//           placeholder="Photo URL"
-//           defaultValue={this.state.photo}
-//           onChange={this.updatePhoto.bind(this)}
-//           onKeyDown={this.updatePhoto.bind(this)} />
-//
-//         {TYPES.map((type) => {
-//           return <label key={type} htmlFor={type}>
-//             <input id={type} type="radio" name="type" value={type} onChange={this.setType.bind(this)} />
-//             {type}
-//           </label>
-//         })}
-//
-//         <div className="actions">
-//           <button className="primary" onClick={this.saveRecipe.bind(this)}>Save</button>
-//         </div>
-//       </div>
-//     )
-//   }
-// }
-//
-// const mapDispatchToProps = { createRecipe }
-//
-// export default connect(null, mapDispatchToProps)(RecipeEditor)
+const mapDispatchToProps = { createStudent }
+
+export default connect(null, mapDispatchToProps)(StudentEditor)

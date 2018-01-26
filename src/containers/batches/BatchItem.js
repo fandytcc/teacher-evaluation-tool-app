@@ -4,10 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { batchShape } from './BatchPage'
 import Title from '../../components/UI/Title'
-// import { fetchOneGame, fetchStudents } from '../actions/batches/fetch'
 import Paper from 'material-ui/Paper'
-// import Menu from 'material-ui/Menu'
-// import MenuItem from 'material-ui/MenuItem'
 
 const style = {
   height: 250,
