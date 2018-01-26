@@ -127,7 +127,7 @@ class BatchPage extends PureComponent {
             </Link>
             </div>
           </Paper>
-          
+
           <div className="student-editor">
             <StudentEditor />
           </div>
