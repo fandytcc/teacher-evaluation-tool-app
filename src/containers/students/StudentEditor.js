@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { createStudent } from '../../actions/batches/create'
 import Title from '../../components/UI/Title'
-
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -44,7 +43,7 @@ class StudentEditor extends PureComponent {
 
   updatePhoto(event) {
     this.setState({
-      startDate: this.refs.photo.value
+      photo: this.refs.photo.value
     })
   }
 
@@ -76,7 +75,6 @@ class StudentEditor extends PureComponent {
               ref="photo"
               className="photo"
               hintText="Student Photo URL"
-              errorText="This field is required"
               defaultValue={this.state.photo}
               onChange={this.updatePhoto.bind(this)}
               onKeyDown={this.updatePhoto.bind(this)} />
@@ -96,8 +94,8 @@ class StudentEditor extends PureComponent {
   }
 }
 
-export default StudentEditor
+// export default StudentEditor
 //
-// const mapDispatchToProps = { createStudent }
-//
-// export default connect(null, mapDispatchToProps)(StudentEditor)
+const mapDispatchToProps = { createStudent }
+
+export default connect(null, mapDispatchToProps)(StudentEditor)

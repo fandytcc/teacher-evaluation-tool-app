@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import Title from '../../components/UI/Title'
+// import Title from './components/UI/Title'
 // import { fetchOneStudent } from '../../actions/batches/fetch'
 // import { updateStudent, clearStudent } from '../../actions/batches/update'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import DatePicker from 'material-ui/DatePicker'
-import './StudentItem.css'
+// import './StudentItem.css'
 
 const style = {
   height: 600,
@@ -32,7 +32,7 @@ export const evaluationShape = PropTypes.shape({
     code: PropTypes.string.isRequied,
 })
 
-class StudentPage extends PureComponent {
+class Temp extends PureComponent {
   constructor(props) {
     super()
 
@@ -109,25 +109,15 @@ class StudentPage extends PureComponent {
   }
 
   render() {
-    { this.props.children }
-    const { _id, name, photo, evaluations, title  } = this.props
-    const { studentId } = this.props.params
-    if (!_id) return null
-
-    const allColorCodes = evaluations.map(evaluation => evaluation.code)
-
     return(
         <Paper className="Result" style={style} zDepth={2}>
           <div className="student-details">
-            <h3>Student name: { name }</h3>
+            <h3>Student name:</h3>
             <div>
-              >{ photo && <img src={ photo } alt="Student Images"/> }
+               photo url
             </div>
-            <h3>Batch no: {title}</h3>
-            <h3>All Evaluations: { allColorCodes }</h3>
-            <div>
-              { evaluations.map(this.renderEvaluations.bind(this)) }
-            </div>
+            <h3>Batch no: </h3>
+            <h3>All Evaluations:</h3>
           </div>
 
           <div className="evaluation-form">
@@ -207,25 +197,4 @@ class StudentPage extends PureComponent {
   }
 }
 
-// const mapStateToProps = ({ batches }, { match }, { push }) => {
-//   const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
-//   // const currentStudent = batch && batch.students.filter((s) => s._id )[0]
-//
-//   const student = batch.students.reduce((prev, next) => {
-//     if (next.student._id === match.params.studentId) {
-//       return next
-//     }
-//     return prev
-//   }, {})
-//
-//   return {
-//     ...student
-//   }
-// }
-
-export default StudentPage
-// export default connect(mapStateToProps, {
-// fetchOneStudent,
-// updateStudent,
-// clearStudent,
-// })(StudentPage)
+export default Temp

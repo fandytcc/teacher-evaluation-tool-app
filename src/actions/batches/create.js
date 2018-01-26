@@ -8,6 +8,7 @@ import {
 } from '../loading'
 
 export const BATCH_CREATED = 'BATCH_CREATED'
+export const STUDENT_CREATED = 'STUDENT_CREATED'
 
 const api = new API()
 
@@ -31,9 +32,22 @@ export const createBatch = (newBatch) => {
   }
 }
 
-// export const createBatch = (newBatch) => {
-//   return {
-//     type: CREATE_BATCH,
-//     payload: newBatch
-//   }
-// }
+export const createStudent = (newStudent, batchId, studentId) => {
+  return (dispatch) => {
+    dispatch({ type: APP_LOADING })
+
+    api.post(`/batches/${batchId}/students/${studentId}`, {})
+      .then(() => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({ type: LOAD_SUCCESS })
+        dispatch({ type: STUDENT_CREATED })
+      })
+      .catch((error) => {
+        dispatch({ type: APP_DONE_LOADING })
+        dispatch({
+          type: LOAD_ERROR,
+          payload: error.message
+        })
+      })
+  }
+}
