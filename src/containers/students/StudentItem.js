@@ -37,7 +37,6 @@ class StudentItem extends PureComponent {
 
   render() {
     const { _id, name, photo, batchId } = this.props
-    console.log(this.props)
 
     return (
       <Paper className="StudentItem" style={style} zDepth={2}>

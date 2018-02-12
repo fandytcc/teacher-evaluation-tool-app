@@ -15,7 +15,7 @@ export default (state = [], { type, payload } = {}) => {
       return Object.assign({}, state, {selectedStudent: payload})
 
     case BATCH_CREATED :
-      const newBatch = { ...payload }
+      const newBatch = Object.assign({}, state, {...payload})
       return [newBatch].concat(state)
 
     case STUDENT_CREATED :
