@@ -52,7 +52,7 @@ class BatchPage extends PureComponent {
 
   getRandomStudent(event) {
     event.preventDefault()
-    const { students } = this.props
+    const { students } = this.props.batch
 
     const colorList = ["G", "Y", "R"]
     const weight = [0.21, 0.32, 0.47]
@@ -89,6 +89,7 @@ class BatchPage extends PureComponent {
     const { _id, title, students } = this.props.batch
     // console.log(this.props.match.params.batchId)
 
+    console.log(students)
     const batchSize = students.length
     const listOfLastColorCodes = students.map(student => student.evaluations[student.evaluations.length-1].code)
 

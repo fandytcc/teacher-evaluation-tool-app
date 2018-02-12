@@ -120,7 +120,6 @@ class StudentPage extends PureComponent {
 
     const allColorCodes = evaluations.map(evaluation => evaluation.code)
 
-    console.log(this.props.student)
     return(
         <Paper className="Result" style={style} zDepth={2}>
           <div className="student-details">
