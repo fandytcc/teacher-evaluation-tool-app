@@ -60,21 +60,18 @@ export const fetchOneBatch = (batchId) => {
   }
 }
 
-export const fetchOneStudent = (batch, batchId, studentId) => {
+export const fetchOneStudent = (batchId, studentId) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
 
     api.get(`/batches/${batchId}/students/${studentId}`)
-      .then((result) => {
+      .then((res) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
 
         dispatch({
           type: FETCHED_ONE_STUDENT,
-          payload: {
-            batch,
-            student: result.body
-          }
+          payload: res.body
         })
       })
       .catch((error) => {
@@ -86,3 +83,27 @@ export const fetchOneStudent = (batch, batchId, studentId) => {
       })
   }
 }
+
+// export const fetchStudents = (batchId) => {
+//   return dispatch => {
+//     dispatch({ type: APP_LOADING })
+//
+//     api.get(`/batches/${batchId}/students`)
+//       .then((result) => {
+//         dispatch({ type: APP_DONE_LOADING })
+//         dispatch({ type: LOAD_SUCCESS })
+//
+//         dispatch({
+//           type: FETCHED_STUDENTS,
+//           payload: result.body,
+//         })
+//       })
+//       .catch((error) => {
+//         dispatch({ type: APP_DONE_LOADING })
+//         dispatch({
+//           type: LOAD_ERROR,
+//           payload: error.message
+//         })
+//       })
+//   }
+// }

@@ -16,11 +16,11 @@ export const createBatch = (newBatch) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.post('/batches', {})
-      .then(() => {
+    api.post('/batches', newBatch)
+      .then((res) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-        dispatch({ type: BATCH_CREATED })
+        dispatch({ type: BATCH_CREATED, payload: res.body })
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })
@@ -32,15 +32,15 @@ export const createBatch = (newBatch) => {
   }
 }
 
-export const createStudent = (newStudent, batchId, studentId) => {
+export const createStudent = (batchId, newStudent) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.post(`/batches/${batchId}/students/${studentId}`, {})
-      .then(() => {
+    api.post(`/batches/${batchId}/students`, newStudent)
+      .then((res) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-        dispatch({ type: STUDENT_CREATED })
+        dispatch({ type: STUDENT_CREATED, payload: res.body })
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })
