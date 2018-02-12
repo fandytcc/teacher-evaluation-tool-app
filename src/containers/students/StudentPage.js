@@ -46,6 +46,24 @@ class StudentPage extends PureComponent {
     this.props.fetchOneStudent(batchId, studentId)
   }
 
+  checkColor(evaluation) {
+    const colorCode = evaluation.code
+    if (colorCode === "Y") return "#f1f495"
+    if (colorCode === "G") return "#9ed1a7"
+    if (colorCode === "R") return "#f24232"
+  }
+
+  renderEvaluations(evaluation, index) {
+    return (
+      <RaisedButton
+        key={index}
+        className="evaluation-code"
+        backgroundColor={this.checkColor(evaluation)}
+        />
+    )
+  }
+  // onClick={this.updateStudent(evaluation).bind(this)}
+
   updateEvaluatedAt(event, date) {
     this.setState({
       evaluatedAt: date
@@ -96,23 +114,9 @@ class StudentPage extends PureComponent {
     this.props.clearStudent(batchId, studentId)
   }
 
-  renderEvaluations(evaluation, index) {
-    const colorCode = evaluation.code
-    return (
-      <RaisedButton
-        key={index}
-        className="evaluation-code"
-        backgroundColor={colorCode}
-        />
-    )
-  }
-
-          // onClick={this.updateStudent(evaluation).bind(this)}
-
   render() {
     if (!this.props.student) return null
     const { _id, name, photo, evaluations } = this.props.student
-    console.log(this.props.batch)
 
     const allColorCodes = evaluations.map(evaluation => evaluation.code)
 
@@ -121,14 +125,14 @@ class StudentPage extends PureComponent {
         <Paper className="Result" style={style} zDepth={2}>
           <div className="student-details">
             <h3>Student name: { name }</h3>
-            <h3>All Evaluations: { allColorCodes }</h3>
             <div>
               { photo && <img src={ photo } alt="Student Images"/> }
             </div>
             <h3>{this.props.batch && this.props.batch.title}</h3>
-            <div>
-              { evaluations.map(this.renderEvaluations.bind(this)) }
-            </div>
+
+            <h3> All evaluations: </h3>
+            { evaluations.map(this.renderEvaluations.bind(this)) }
+
           </div>
 
           <div className="evaluation-form">
@@ -191,7 +195,7 @@ class StudentPage extends PureComponent {
   }
 }
 
-{/* <RaisedButton
+/* <RaisedButton
   className="primary"
   primary={true}
   style={{margin:5}}
@@ -208,7 +212,7 @@ class StudentPage extends PureComponent {
   secondary={true}
   style={{margin:5}}
   onClick={this.saveStudentAndNext.bind(this)}
-  label="SAVE & NEXT" /> */}
+  label="SAVE & NEXT" /> */
 
 const mapStateToProps = state => ({
   batch: state.batches.selectedBatch,

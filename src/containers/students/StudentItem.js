@@ -29,9 +29,15 @@ class StudentItem extends PureComponent {
     return `block ${lastColorCode}`
   }
 
+  renderAllColorCodes(){
+    const { evaluations } = this.props
+    console.log(evaluations.length)
+    return evaluations.map(evaluation => `block ${evaluation.code}`)
+  }
+
   render() {
-    const { _id, name, photo, evaluations, batchId } = this.props
-    const allColorCodes = evaluations.map(evaluation => evaluation.code)
+    const { _id, name, photo, batchId } = this.props
+    console.log(this.props)
 
     return (
       <Paper className="StudentItem" style={style} zDepth={2}>
@@ -47,7 +53,6 @@ class StudentItem extends PureComponent {
           <p>Latest evaluation:
             <div className={this.classNames()}></div>
           </p>
-          <p>All evaluations:{allColorCodes}</p>
         </footer>
       </Paper>
     )

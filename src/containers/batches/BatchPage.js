@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { push } from 'react-router-redux'
 import StudentItem from '../../containers/students/StudentItem'
 import { studentShape } from '../../containers/students/StudentPage'
 import { fetchOneBatch } from '../../actions/batches/fetch'
@@ -88,8 +87,7 @@ class BatchPage extends PureComponent {
     if (!this.props.batch) return null
 
     const { _id, title, students } = this.props.batch
-
-    console.log(this.props.match.params.batchId)
+    // console.log(this.props.match.params.batchId)
 
     const batchSize = students.length
     const listOfLastColorCodes = students.map(student => student.evaluations[student.evaluations.length-1].code)
@@ -152,4 +150,4 @@ const mapStateToProps = state => ({
   batch: state.batches.selectedBatch
 })
 
-export default connect(mapStateToProps, { fetchOneBatch, push })(BatchPage)
+export default connect(mapStateToProps, { fetchOneBatch })(BatchPage)
