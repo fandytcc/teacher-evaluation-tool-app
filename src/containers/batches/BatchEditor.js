@@ -38,15 +38,15 @@ class BatchEditor extends PureComponent {
     })
   }
 
-  updateStartDate(event) {
+  updateStartDate(event, date) {
     this.setState({
-      startDate: this.refs.startDate.value
+      startDate: date
     })
   }
 
-  updateEndDate(event) {
+  updateEndDate(event, date) {
     this.setState({
-      endDate: this.refs.endDate.value
+      endDate: date
     })
   }
 

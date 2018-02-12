@@ -30,14 +30,13 @@ class StudentItem extends PureComponent {
   }
 
   render() {
-    const { _id, name, photo, evaluations } = this.props
-
+    const { _id, name, photo, evaluations, batchId } = this.props
     const allColorCodes = evaluations.map(evaluation => evaluation.code)
 
     return (
       <Paper className="StudentItem" style={style} zDepth={2}>
         <header>
-          <Link to={`/batches/${_id}/students/${_id}`}>
+          <Link to={`/batches/${batchId}/students/${_id}`}>
             <MenuItem primaryText={ name }/>
           </Link>
         </header>

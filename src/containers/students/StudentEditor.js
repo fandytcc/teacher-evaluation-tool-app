@@ -43,13 +43,13 @@ class StudentEditor extends PureComponent {
 
   updatePhoto(event) {
     this.setState({
-      photo: this.refs.photo.value
+      photo: event.target.value
     })
   }
 
   saveStudent() {
     const student = { ...this.state }
-    this.props.createStudent(student)
+    this.props.createStudent(this.props.batchId, student)
   }
 
   render() {

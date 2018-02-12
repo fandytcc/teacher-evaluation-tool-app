@@ -8,18 +8,18 @@ import {
 
 const api = new API()
 
-export const BATCH_STUDENT_UPDATED = 'BATCH_STUDENT_UPDATED'
-export const BATCH_STUDENT_REMOVED = 'BATCH_STUDENT_REMOVED'
+export const STUDENT_UPDATED = 'STUDENT_UPDATED'
+export const STUDENT_REMOVED = 'STUDENT_REMOVED'
 
-export const updateStudent = (batch, index, student) => {
+export const updateStudent = (batchId, updatedStudent) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.patch(`/batches/${batch._id}/students/${student._id}`, { index, ...student })
-      .then((result) => {
+    api.patch(`/batches/${batchId}/update`, updatedStudent)
+      .then((res) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-        dispatch({ type: BATCH_STUDENT_UPDATED })
+        dispatch({ type: STUDENT_UPDATED, payload: res.body })
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })
@@ -31,15 +31,15 @@ export const updateStudent = (batch, index, student) => {
   }
 }
 
-export const clearStudent = (batch, student) => {
+export const clearStudent = (batchId, studentId) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.put(`/batches/${batch._id}/students/${student._id}`, { ...student })
-      .then((result) => {
+    api.put(`/batches/${batchId}/students/${studentId}`)
+      .then((res) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-        dispatch({ type: BATCH_STUDENT_REMOVED })
+        dispatch({ type: STUDENT_REMOVED, payload: res.body })
       })
       .catch((error) => {
         dispatch({ type: APP_DONE_LOADING })

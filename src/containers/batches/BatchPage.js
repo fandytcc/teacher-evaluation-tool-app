@@ -23,6 +23,7 @@ class BatchPage extends PureComponent {
   static propTypes = {
     ...batchShape.isRequired,
     result: PropTypes.string,
+    fetchOneBatch: PropTypes.func.isRequied
   }
 
   componentWillMount() {
@@ -30,7 +31,7 @@ class BatchPage extends PureComponent {
   }
 
   renderStudent(student, index) {
-    return <StudentItem key={index} { ...student } />
+    return <StudentItem key={index} batchId={this.props.match.params.batchId} { ...student } />
   }
 
   createWeightedList(list, weight) {
@@ -84,8 +85,11 @@ class BatchPage extends PureComponent {
   }
 
   render() {
-    const { _id, title, students } = this.props
-    if (!_id) return null
+    if (!this.props.batch) return null
+
+    const { _id, title, students } = this.props.batch
+
+    console.log(this.props.match.params.batchId)
 
     const batchSize = students.length
     const listOfLastColorCodes = students.map(student => student.evaluations[student.evaluations.length-1].code)
@@ -136,7 +140,7 @@ class BatchPage extends PureComponent {
         <main className="students-wrapper">
           <h2>Students Overview in {title}</h2>
           <div className="students">
-            {students.map(this.renderStudent)}
+            {students.map(this.renderStudent.bind(this))}
           </div>
         </main>
       </article>
@@ -144,17 +148,8 @@ class BatchPage extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ batches }, { match }) => {
-  const batch = batches.reduce((prev, next) => {
-    if (next._id === match.params.batchId) {
-      return next
-    }
-    return prev
-  }, {})
-
-  return {
-    ...batch
-  }
-}
+const mapStateToProps = state => ({
+  batch: state.batches.selectedBatch
+})
 
 export default connect(mapStateToProps, { fetchOneBatch, push })(BatchPage)

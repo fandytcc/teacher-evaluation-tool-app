@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Title from '../../components/UI/Title'
-// import { fetchOneStudent } from '../../actions/batches/fetch'
-// import { updateStudent, clearStudent } from '../../actions/batches/update'
+import { fetchBatches, fetchOneStudent } from '../../actions/batches/fetch'
+import { updateStudent, clearStudent } from '../../actions/batches/update'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -12,7 +12,7 @@ import DatePicker from 'material-ui/DatePicker'
 import './StudentItem.css'
 
 const style = {
-  height: 600,
+  height: 800,
   width: 600,
   margin: 20,
   textAlign: 'left',
@@ -24,12 +24,6 @@ export const studentShape = PropTypes.shape({
     name: PropTypes.string.isRequired,
     photo: PropTypes.string.isRequied,
     evaluations: PropTypes.array,
-})
-
-export const evaluationShape = PropTypes.shape({
-    evaluatedAt: PropTypes.string.isRequired,
-    remark: PropTypes.string.isRequired,
-    code: PropTypes.string.isRequied,
 })
 
 class StudentPage extends PureComponent {
@@ -45,19 +39,16 @@ class StudentPage extends PureComponent {
     }
   }
 
-  static propTypes = {
-    ...studentShape.isRequired,
-    ...evaluationShape.isRequired,
+  componentWillMount() {
+    const batchId = this.props.match.params.batchId
+    const studentId = this.props.match.params.studentId
+
+    this.props.fetchOneStudent(batchId, studentId)
   }
 
-  // componentWillMount() {
-  //   fetchBatches()
-  //   this.props.fetchOneStudent(this.props.match.params.studentId)
-  // }
-
-  updateEvaluatedAt(event) {
+  updateEvaluatedAt(event, date) {
     this.setState({
-      evaluatedAt: this.refs.evaluatedAt.value
+      evaluatedAt: date
     })
   }
 
@@ -67,25 +58,27 @@ class StudentPage extends PureComponent {
     })
   }
 
-  clearStudent(event, student) {
-    this.props.clearStudent(student)
-  }
+  // updateStudent(event, evaluations) {
+  //   this.setState({
+  //     evaluatedAt: Date.now,
+  //     remark: evaluations.remark
+  //   })
+  // }
 
-  updateStudent(event, evaluation) {
-    this.setState({
-      evaluatedAt: Date.now,
-      remark: evaluation.remark
-    })
-  }
+  saveStudent(event) {
+    event.preventDefault()
 
-  saveStudent() {
-    const { batchId, studentId } = this.props.match.params
+    const { batchId, studentId } = this.props
     const { code, remark, evaluatedAt } = this.state
     const student = {
       ...this.state,
       id: studentId,
      }
     this.props.updateStudent(student)
+  }
+
+  goToBatch(event) {
+    const { batchId } = this.props.match.params
     this.props.push(`/batches/${batchId}`)
   }
 
@@ -94,7 +87,13 @@ class StudentPage extends PureComponent {
     const { code, remark, evaluatedAt } = this.state
     const student = { ...this.state }
     this.props.updateStudent(student)
-    this.props.push(`/batches/${batchId}/students/${studentId}`)
+  }
+
+  goToStudent = studentId => event => this.props.push(`${studentId}`)
+
+  clearStudent(event) {
+    const { batchId, studentId } = this.props.match.params
+    this.props.clearStudent(batchId, studentId)
   }
 
   renderEvaluations(evaluation, index) {
@@ -104,27 +103,29 @@ class StudentPage extends PureComponent {
         key={index}
         className="evaluation-code"
         backgroundColor={colorCode}
-        onClick={this.updateStudent(evaluation).bind(this)} />
+        />
     )
   }
 
+          // onClick={this.updateStudent(evaluation).bind(this)}
+
   render() {
-    { this.props.children }
-    const { _id, name, photo, evaluations, title  } = this.props
-    const { studentId } = this.props.params
-    if (!_id) return null
+    if (!this.props.student) return null
+    const { _id, name, photo, evaluations } = this.props.student
+    console.log(this.props.batch)
 
     const allColorCodes = evaluations.map(evaluation => evaluation.code)
 
+    console.log(this.props.student)
     return(
         <Paper className="Result" style={style} zDepth={2}>
           <div className="student-details">
             <h3>Student name: { name }</h3>
-            <div>
-              >{ photo && <img src={ photo } alt="Student Images"/> }
-            </div>
-            <h3>Batch no: {title}</h3>
             <h3>All Evaluations: { allColorCodes }</h3>
+            <div>
+              { photo && <img src={ photo } alt="Student Images"/> }
+            </div>
+            <h3>{this.props.batch && this.props.batch.title}</h3>
             <div>
               { evaluations.map(this.renderEvaluations.bind(this)) }
             </div>
@@ -181,24 +182,7 @@ class StudentPage extends PureComponent {
                   style={{margin:5}}
                   onClick={this.clearStudent.bind(this)}
                   label="DELETE" />
-                <RaisedButton
-                  className="primary"
-                  primary={true}
-                  style={{margin:5}}
-                  onClick={this.updateStudent.bind(this)}
-                  label="EDIT" />
-                <RaisedButton
-                  className="secondary"
-                  secondary={true}
-                  style={{margin:5}}
-                  onClick={this.saveStudent.bind(this)}
-                  label="SAVE" />
-                <RaisedButton
-                  className="secondary"
-                  secondary={true}
-                  style={{margin:5}}
-                  onClick={this.saveStudentAndNext.bind(this)}
-                  label="SAVE & NEXT" />
+
               </div>
             </form>
           </div>
@@ -207,25 +191,34 @@ class StudentPage extends PureComponent {
   }
 }
 
-// const mapStateToProps = ({ batches }, { match }, { push }) => {
-//   const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
-//   // const currentStudent = batch && batch.students.filter((s) => s._id )[0]
-//
-//   const student = batch.students.reduce((prev, next) => {
-//     if (next.student._id === match.params.studentId) {
-//       return next
-//     }
-//     return prev
-//   }, {})
-//
-//   return {
-//     ...student
-//   }
-// }
+{/* <RaisedButton
+  className="primary"
+  primary={true}
+  style={{margin:5}}
+  onClick={this.updateStudent.bind(this)}
+  label="EDIT" />
+<RaisedButton
+  className="secondary"
+  secondary={true}
+  style={{margin:5}}
+  onClick={this.saveStudent.bind(this)}
+  label="SAVE" />
+<RaisedButton
+  className="secondary"
+  secondary={true}
+  style={{margin:5}}
+  onClick={this.saveStudentAndNext.bind(this)}
+  label="SAVE & NEXT" /> */}
 
-export default StudentPage
-// export default connect(mapStateToProps, {
-// fetchOneStudent,
-// updateStudent,
-// clearStudent,
-// })(StudentPage)
+const mapStateToProps = state => ({
+  batch: state.batches.selectedBatch,
+  student: state.batches.selectedStudent,
+})
+
+export default connect(mapStateToProps, {
+fetchBatches,
+fetchOneStudent,
+updateStudent,
+clearStudent,
+push
+})(StudentPage)

@@ -22,6 +22,8 @@ class BatchesContainer extends PureComponent {
   }
 
   render() {
+    if (!this.props.batches) return null
+
     return (
       <div className="batches-wrapper">
         <BatchEditor />
@@ -37,7 +39,9 @@ class BatchesContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ batches }) => ({ batches })
+const mapStateToProps = state => ({
+  batches: state.batches.allBatches
+})
 // const mapDispatchToProps = { fetchBatches, fetchStudents }
 
 export default connect(mapStateToProps, { fetchBatches })(BatchesContainer)
