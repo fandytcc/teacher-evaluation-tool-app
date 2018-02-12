@@ -115,7 +115,6 @@ class BatchPage extends PureComponent {
               <div className="block R"></div> Red {redPercentage}%
             </div>
 
-            <p>random student name & photo</p>
             <p>{listOfLastColorCodes}</p>
             <p>{this.getRandomStudent}</p>
 
