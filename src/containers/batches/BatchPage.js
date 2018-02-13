@@ -89,7 +89,6 @@ class BatchPage extends PureComponent {
     const { _id, title, students } = this.props.batch
     // console.log(this.props.match.params.batchId)
 
-    console.log(students)
     const batchSize = students.length
     const listOfLastColorCodes = students.map(student => student.evaluations[student.evaluations.length-1].code)
 
@@ -116,7 +115,6 @@ class BatchPage extends PureComponent {
               <div className="block R"></div> Red {redPercentage}%
             </div>
 
-            <p>random student name & photo</p>
             <p>{listOfLastColorCodes}</p>
             <p>{this.getRandomStudent}</p>
 
