@@ -8,9 +8,13 @@ import Paper from 'material-ui/Paper'
 import Typography from 'material-ui/Typography'
 import './StudentItem.css'
 
+//styling paper
 const style = {
-  height: 450,
-  width: 300,
+  paddingTop: 16,
+  paddngBottom: 16,
+  paddingLeft: 40,
+  height: 400,
+  width: 250,
   margin: 20,
   textAlign: 'left',
   display: 'inline-block',
@@ -29,12 +33,6 @@ class StudentItem extends PureComponent {
     return `block ${lastColorCode}`
   }
 
-  renderAllColorCodes(){
-    const { evaluations } = this.props
-    console.log(evaluations.length)
-    return evaluations.map(evaluation => `block ${evaluation.code}`)
-  }
-
   render() {
     const { _id, name, photo, batchId } = this.props
 
@@ -42,14 +40,14 @@ class StudentItem extends PureComponent {
       <Paper className="StudentItem" style={style} zDepth={2}>
         <header>
           <Link to={`/batches/${batchId}/students/${_id}`}>
-            <Typography>{ name }</Typography>
+            <Typography variant="title">{ name }</Typography>
           </Link>
         </header>
         <main>
           { photo && <img src={ photo } alt="student"/> }
         </main>
         <footer>
-          <p>Latest evaluation:
+          <p>Latest evaluation
             <div className={this.classNames()}></div>
           </p>
         </footer>

@@ -6,11 +6,12 @@ import Title from '../../components/UI/Title'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
+import './BatchEditor.css'
 
 const style = {
-  height: 320,
+  height: 350,
   width: 350,
-  margin: 20,
+  margin: 10,
   textAlign: 'center',
   display: 'inline-block',
 };
@@ -29,10 +30,6 @@ class BatchEditor extends PureComponent {
   }
 
   updateTitle(event) {
-    if (event.keyCode === 13) {
-      event.preventDefault()
-      this.refs.summary.medium.elements[0].focus()
-    }
     this.setState({
       title: event.target.value
     })
@@ -60,44 +57,56 @@ class BatchEditor extends PureComponent {
       <Paper className="editor" style={style} zDepth={2}>
         <Title content="Create New Batch: " />
 
-        <form onSubmit={this.saveBatch.bind(this)} style={{ paddingLeft: 30 }}>
-          <div className="form">
+        <form onSubmit={this.saveBatch.bind(this)} className="container">
+          <div className="form" style={{margin: 20}}>
             <TextField
-              type="text"
-              ref="title"
-              className="title"
-              hintText="Batch Number"
-              defaultValue={this.state.title}
+              id="title"
+              className="text-field"
+              label="Batch Number"
+              value={this.state.title}
               onChange={this.updateTitle.bind(this)}
-              onKeyDown={this.updateTitle.bind(this)} />
-          </div>
+              margin="dense"
+              autoFocus
+              fullWidth />
 
-          <div className="form">
             <TextField
               id="startDate"
               label="Start date"
-              type="startDate"
-              className="startDate"
-              defaultValue={this.state.startDate}            onChange={this.updateStartDate.bind(this)}
-              onKeyDown={this.updateStartDate.bind(this)} />
-          </div>
+              type="date"
+              className="text-field"
+              defaultValuevalue={this.state.startDate}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={this.updateStartDate.bind(this)}
+              onKeyDown={this.updateStartDate.bind(this)}
+              margin="dense"
+              autoFocus
+              fullWidth />
 
-          <div className="form">
             <TextField
               id="endDate"
               label="End date"
-              type="endDate"
-              className="endDate"
+              type="date"
+              className="text-field"
+              InputLabelProps={{
+                shrink: true,
+              }}
               defaultValue={this.state.endDate}            onChange={this.updateEndDate.bind(this)}
-              onKeyDown={this.updateEndDate.bind(this)} />
+              onKeyDown={this.updateEndDate.bind(this)}
+              margin="dense"
+              autoFocus
+              fullWidth />
           </div>
 
-          <div className="actions">
+          <div className="actions" style={{margin: 10}}>
             <Button
-              varient="raised"
+              variant="raised"
               className="primary"
               color="primary"
-              onClick={this.saveBatch.bind(this)}> Create Batch </Button>
+              onClick={this.saveBatch.bind(this)}>
+            Create Batch
+            </Button>
           </div>
 
         </form>

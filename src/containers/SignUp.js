@@ -16,10 +16,10 @@ const dialogStyle = {
   padding: '2rem',
 }
 
-const buttonStyle = {
-  float: 'right',
-  marginLeft: '2rem',
-}
+// const buttonStyle = {
+//   float: 'right',
+//   marginLeft: '2rem',
+// }
 
 export class SignUp extends PureComponent {
   static propTypes = {
@@ -27,15 +27,23 @@ export class SignUp extends PureComponent {
     signUp: PropTypes.func.isRequired,
   }
 
-  state = {}
+  constructor() {
+    super()
+    this.state = {
+      nickname: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+    }
+  }
 
   submitForm(event) {
     event.preventDefault()
     if (this.validateAll()) {
       const user = {
-        name: this.refs.name.getValue(),
-        email: this.refs.email.getValue(),
-        password: this.refs.password.getValue()
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password
       }
       this.props.signUp(user)
     }
@@ -54,9 +62,9 @@ export class SignUp extends PureComponent {
   }
 
   validateName() {
-    const { name } = this.refs
+    const { name } = this.state
 
-    if (name.getValue().length > 1) {
+    if (name.length > 1) {
       this.setState({
         nameError: null
       })
@@ -70,16 +78,16 @@ export class SignUp extends PureComponent {
   }
 
   validateEmail() {
-    const { email } = this.refs
+    const { email } = this.state
 
-    if (email.getValue().match(/^[a-z0-9._-]+@[a-z0-9._-]+.[a-z0-9._-]+$/)) {
+    if (email.match(/^[a-z0-9._-]+@[a-z0-9._-]+.[a-z0-9._-]+$/)) {
       this.setState({
         emailError: null
       })
       return true
     }
 
-    if (email.value === '') {
+    if (email === '') {
       this.setState({
         emailError: 'Please provide your email address'
       })
@@ -93,20 +101,20 @@ export class SignUp extends PureComponent {
   }
 
   validatePassword() {
-    const { password } = this.refs
+    const { password } = this.state
 
-    if (password.getValue().length < 6) {
+    if (password.length < 6) {
       this.setState({
         passwordError: 'Password is too short'
       })
       return false
     }
 
-    if (password.getValue().match(/[a-zA-Z]+/) && password.getValue().match(/[0-9]+/)) {
+    if (password.match(/[a-zA-Z]+/) && password.match(/[0-9]+/)) {
       this.setState({
         passwordError: null
       })
-      return true
+      return this.validatePasswordConfirmation()
     }
 
     this.setState({
@@ -116,9 +124,9 @@ export class SignUp extends PureComponent {
   }
 
   validatePasswordConfirmation() {
-    const { password, passwordConfirmation } = this.refs
+    const { password, passwordConfirmation } = this.state
 
-    if (password.value === passwordConfirmation.value) {
+    if (password === passwordConfirmation) {
       this.setState({
         passwordConfirmationError: null
       })
@@ -131,32 +139,75 @@ export class SignUp extends PureComponent {
     return false
   }
 
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    }, this.validateField(name))
+  }
+
+  validateField = name => _ => {
+  switch(name) {
+    case 'name' :
+      return this.validateName()
+    case 'email' :
+      return this.validateEmail()
+    case 'password' :
+      return this.validatePassword()
+    case 'passwordConfirmation' :
+      return this.validatePasswordConfirmation()
+    default :
+      return this.validateAll()
+  }
+}
+
   render() {
+    const { name, email, password, passwordConfirmation, nameError, emailError, passwordError, passwordConfirmationError} = this.state
+
     return (
       <Paper style={ dialogStyle }>
         <Title content="Sign Up" level={2} />
 
         <form onSubmit={this.submitForm.bind(this)}>
           <div className="input">
-            <TextField ref="name" type="text" hintText="Your name"
-              onChange={this.validateName.bind(this)}
-              errorText={ this.state.nameError} />
+            <TextField
+              id="name"
+              type="text"
+              label="Your name"
+              value={name}
+              onChange={this.handleChange('name').bind(this)}
+              errorText={!!nameError}
+              margin="dense" />
           </div>
           <div className="input">
-            <TextField ref="email" type="email" hintText="Email address"
-              onChange={this.validateEmail.bind(this)}
-              errorText={ this.state.emailError} />
+            <TextField
+              id="email"
+              type="email"
+              label="Email address"
+              value={email}
+              onChange={this.handleChange('email').bind(this)}
+              errorText={!!emailError}
+              margin="dense" />
           </div>
           <div className="input">
-            <TextField ref="password" type="password" hintText="Password"
-              onChange={this.validatePassword.bind(this)}
-              errorText={ this.state.passwordError} />
+            <TextField
+              id="password"
+              type="password"
+              label="Password"
+              value={password}
+              onChange={this.handleChange('password').bind(this)}
+              errorText={!!passwordError}
+              margin="dense" />
           </div>
           <div className="input">
-            <TextField ref="passwordConfirmation" type="password" hintText="Repeat Password"
-              onKeyUp={this.validatePasswordConfirmation.bind(this)}
-              onChange={this.validatePasswordConfirmation.bind(this)}
-              errorText={ this.state.passwordConfirmationError} />
+            <TextField
+              id="passwordConfirmation"
+              type="password"
+              label="Repeat Password"
+              value={passwordConfirmation}
+              onKeyUp={this.handleChange('passwordConfirmation').bind(this)}
+              onChange={this.handleChange('passwordConfirmation').bind(this)}
+              errorText={!!passwordConfirmationError}
+              margin="dense" />
           </div>
         </form>
         <Button color="primary"

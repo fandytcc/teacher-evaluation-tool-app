@@ -5,13 +5,13 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import signOut from '../../actions/user/sign-out'
 //material-ui
-import { withStyles } from 'material-ui/styles'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import ActionHome from 'material-ui-icons/Home'
+import './Navigation.css'
 
 const TITLE = 'Student Evaluations'
 

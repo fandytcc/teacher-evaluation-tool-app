@@ -1,0 +1,17 @@
+.text-field {
+  width: 200;
+  padding-left: 30;
+}
+
+.student-details {
+  width: 550px;
+  height: 300px;
+  float: left;
+  text-align: center;
+}
+
+.evaluation-form {
+  width: 750px;
+  height: 300px;
+  float: right;
+}
