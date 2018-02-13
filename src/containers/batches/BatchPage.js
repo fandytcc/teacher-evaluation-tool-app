@@ -6,8 +6,9 @@ import StudentItem from '../../containers/students/StudentItem'
 import { studentShape } from '../../containers/students/StudentPage'
 import { fetchOneBatch } from '../../actions/batches/fetch'
 import StudentEditor from '../../containers/students/StudentEditor'
+//material-ui & styling
 import Paper from 'material-ui/Paper'
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui/Button'
 import '../students/StudentItem.css'
 
 export const batchShape = PropTypes.shape({
@@ -120,11 +121,10 @@ class BatchPage extends PureComponent {
 
             <div className="actions">
             <Link to="/random-result">
-              <RaisedButton
+              <Button
                 className="primary"
-                primary={true}
-                onClick={this.getRandomStudent.bind(this)}
-                label="Ask a question"/>
+                color="primary"
+                onClick={this.getRandomStudent.bind(this)}>Ask a question</Button>
             </Link>
             </div>
           </Paper>

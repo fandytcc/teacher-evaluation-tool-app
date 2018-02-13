@@ -2,13 +2,14 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import Title from '../../components/UI/Title'
+// import Title from '../../components/UI/Title'
 import { fetchBatches, fetchOneStudent } from '../../actions/batches/fetch'
 import { updateStudent, clearStudent } from '../../actions/batches/update'
+//material-ui & styling
 import Paper from 'material-ui/Paper'
+import Typography from 'material-ui/Typography'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import DatePicker from 'material-ui/DatePicker'
+import Button from 'material-ui/Button'
 import './StudentItem.css'
 
 const style = {
@@ -55,7 +56,7 @@ class StudentPage extends PureComponent {
 
   renderEvaluations(evaluation, index) {
     return (
-      <RaisedButton
+      <Button
         key={index}
         className="evaluation-code"
         backgroundColor={this.checkColor(evaluation)}
@@ -123,52 +124,56 @@ class StudentPage extends PureComponent {
     return(
         <Paper className="Result" style={style} zDepth={2}>
           <div className="student-details">
-            <h3>Student name: { name }</h3>
+            <Typography component="h3">
+              Student name: { name }
+            </Typography>
             <div>
               { photo && <img src={ photo } alt="Student Images"/> }
             </div>
-            <h3>{this.props.batch && this.props.batch.title}</h3>
+            <Typography component="h3">
+              {this.props.batch && this.props.batch.title}
+            </Typography>
 
-            <h3> All evaluations: </h3>
+            <Typography component="h3"> All evaluations: </Typography>
             { evaluations.map(this.renderEvaluations.bind(this)) }
-
           </div>
 
           <div className="evaluation-form">
             <h2>Daily Evaluation</h2>
             <form onSubmit={this.saveStudent.bind(this)}>
               <div className="form">
-                <DatePicker
-                  hintText="Evaluation date (default is set as today)"
-                  ref="evaluatedAt"
+                <TextField
+                  id="evaluationDate"
+                  label="Evaluation date (default is set as today)"
+                  type="evaluatedAt"
                   className="evaluationDate"
                   autoOk={true}
                   fullWidth={true}
                   defaultValue={Date.now}          onChange={this.updateEvaluatedAt.bind(this)}
                   onKeyDown={this.updateEvaluatedAt.bind(this)} />
-                <RaisedButton
+                <Button
+                  variant="raised"
                   className="red"
                   backgroundColor="#f24232"
                   style={{margin:5}}
-                  onClick={this.setState({ code:"#f24232"})}
-                  label="Red"/>
-                <RaisedButton
+                  onClick={this.setState({ code:"#f24232"})}>Red</Button>
+                <Button
+                  variant="raised"
                   className="yellow"
                   backgroundColor="#f1f495"
                   style={{margin:5}}
-                  onClick={this.setState({ code:"#f1f495"})}
-                  label="Yellow"/>
-                <RaisedButton
+                  onClick={this.setState({ code:"#f1f495"})}>Yellow</Button>
+                <Button
+                  variant="raised"
                   className="green"
                   backgroundColor="#9ed1a7"
                   style={{margin:5}}
-                  onClick={this.setState({ code:"#9ed1a7"})}
-                  label="Green"/>
+                  onClick={this.setState({ code:"#9ed1a7"})}>Green</Button>
                 <TextField
                   type="text"
                   ref="remark"
                   className="remark"
-                  hintText="Remarks for this student"
+                  label="Remarks for this student"
                   multiLine={true}
                   rows={2}
                   rowsMax={4}
@@ -179,13 +184,12 @@ class StudentPage extends PureComponent {
               </div>
 
               <div className="submit-action">
-                <RaisedButton
+                <Button
+                  variant="raised"
                   className="primary"
-                  primary={true}
+                  color="primary"
                   style={{margin:5}}
-                  onClick={this.clearStudent.bind(this)}
-                  label="DELETE" />
-
+                  onClick={this.clearStudent.bind(this)}>DELETE</Button>
               </div>
             </form>
           </div>
@@ -194,19 +198,19 @@ class StudentPage extends PureComponent {
   }
 }
 
-/* <RaisedButton
+/* <Button
   className="primary"
   primary={true}
   style={{margin:5}}
   onClick={this.updateStudent.bind(this)}
   label="EDIT" />
-<RaisedButton
+<Button
   className="secondary"
   secondary={true}
   style={{margin:5}}
   onClick={this.saveStudent.bind(this)}
   label="SAVE" />
-<RaisedButton
+<Button
   className="secondary"
   secondary={true}
   style={{margin:5}}

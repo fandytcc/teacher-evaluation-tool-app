@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { createStudent } from '../../actions/batches/create'
 import Title from '../../components/UI/Title'
+//material-ui
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui/Button'
 
 const style = {
   height: 300,
@@ -61,9 +62,9 @@ class StudentEditor extends PureComponent {
           <div className="form">
             <TextField
               type="text"
-              ref="name"
+              id="name"
               className="name"
-              hintText="Fill in FULL name of a student"
+              label="Fill in FULL name of a student"
               defaultValue={this.state.name}
               onChange={this.updateName.bind(this)}
               onKeyDown={this.updateName.bind(this)} />
@@ -72,20 +73,19 @@ class StudentEditor extends PureComponent {
           <div className="form">
             <TextField
               type="URL"
-              ref="photo"
+              id="photo"
               className="photo"
-              hintText="Student Photo URL"
+              label="Student Photo URL"
               defaultValue={this.state.photo}
               onChange={this.updatePhoto.bind(this)}
               onKeyDown={this.updatePhoto.bind(this)} />
           </div>
 
           <div className="actions">
-            <RaisedButton
+            <Button
               className="primary"
-              primary={true}
-              onClick={this.saveStudent.bind(this)}
-              label="Create Student"/>
+              color="primary"
+              onClick={this.saveStudent.bind(this)}>Create Student</Button>
           </div>
 
         </form>

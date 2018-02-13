@@ -1,5 +1,4 @@
-// src/styles/theme.js
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { createMuiTheme } from 'material-ui/styles'
 
 // Colors
 export const green        = '#00AA86'
@@ -12,17 +11,41 @@ export const grey         = '#DEDEDE'
 export const grey50       = 'rgba(222, 222, 222, 0.5)'
 export const grey30       = 'rgba(222, 222, 222, 0.7)'
 
-// Palette
-export const palette = {
-  primary1Color: red,
-  primary2Color: green,
-  primary3Color: green,
-  accent1Color: green,
-  textColor: black,
-  alternateTextColor: white,
-  canvasColor: white,
-  borderColor: grey,
-  disabledColor: grey30
-}
+//Background
+const paperDark                  = '#000046'
+const defaultDark                = '#000046'
+const appBarDark                 = '#000046'
+const contentFrameDark           = '#000046'
+const chipDark                   = '#000046'
+const avatarDark                 = '#000046'
 
-export default getMuiTheme({ palette })
+// Palette
+const theme = createMuiTheme({
+   palette: {
+     primary: {
+       light: red,
+       main: green,
+       dark: green,
+       contrastText: black,
+     },
+     secondary: {
+       light: green,
+       main: green,
+       dark: darkGrey,
+       contrastText: white,
+     },
+     background: {
+       paperDark: paperDark,
+       defaultDark: defaultDark,
+       appBarDark: appBarDark,
+       contentFrameDark: contentFrameDark,
+       chipDark: chipDark,
+       avatarDark: avatarDark
+     },
+     status: {
+       danger: 'orange',
+     },
+   }
+ })
+
+export default theme
