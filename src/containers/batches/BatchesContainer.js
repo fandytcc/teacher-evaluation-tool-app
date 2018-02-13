@@ -6,6 +6,7 @@ import BatchItem from './BatchItem'
 import BatchEditor from './BatchEditor'
 import { batchShape } from './BatchPage'
 import { fetchBatches } from '../../actions/batches/fetch'
+import Typography from 'material-ui/Typography'
 import './BatchesContainer.css'
 
 class BatchesContainer extends PureComponent {
@@ -25,10 +26,10 @@ class BatchesContainer extends PureComponent {
     if (!this.props.batches) return null
 
     return (
-      <div className="batches-wrapper">
+      <div className="batches-wrapper" style={{margin:20}}>
         <BatchEditor />
 
-        <h2>All Current Batches</h2>
+        <Typography variant="display1" style={{textAlign:"center"}}>All Current Batches</Typography>
 
         <div className="batches">
           { this.props.batches.map(this.renderBatch) }
