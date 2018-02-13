@@ -27,16 +27,33 @@ export class SignIn extends PureComponent {
     signedIn: PropTypes.bool,
   }
 
+  constructor() {
+    super()
+    this.state = { email: "", password: "" }
+  }
+
   componentWillMount() {
     const { replace, signedIn } = this.props
     if (signedIn) replace('/')
   }
 
+  updateEmail(event) {
+    this.setState({
+      email: event.target.value
+    })
+  }
+
+  updatePassword(event) {
+    this.setState({
+      password: event.target.value
+    })
+  }
+
   submitForm(event) {
     event.preventDefault()
     const user = {
-      email: this.refs.email.getValue(),
-      password: this.refs.password.getValue(),
+      email: this.state.email,
+      password: this.state.password,
     }
     this.props.signIn(user)
   }
@@ -52,10 +69,20 @@ export class SignIn extends PureComponent {
 
         <form onSubmit={this.submitForm.bind(this)}>
           <div className="input">
-            <TextField ref="email" type="email" hintText="Email address" />
+            <TextField
+              id="email"
+              type="email"
+              margin="normal"
+              label="Email address" onChange={this.updateEmail.bind(this)} />
           </div>
           <div className="input">
-            <TextField ref="password" type="password" hintText="Password"  />
+            <TextField
+              id="password"
+              variant="password"
+              margin="normal"
+              label="Password"
+              autoComplete="current-password"
+              onChange={this.updatePassword.bind(this)}/>
           </div>
         </form>
         <Button color="primary" onClick={ this.signUp.bind(this) }>
