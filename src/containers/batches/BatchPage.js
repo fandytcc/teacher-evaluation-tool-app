@@ -9,7 +9,19 @@ import StudentEditor from '../../containers/students/StudentEditor'
 //material-ui & styling
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
+import Typography from 'material-ui/Typography'
 import '../students/StudentItem.css'
+import './BatchPage.css'
+
+//styling Paper
+const style = {
+  paddingTop: 16,
+  paddingBottom: 16,
+  height: 300,
+  width: 1350,
+  margin: 16,
+  display: 'inline-block',
+}
 
 export const batchShape = PropTypes.shape({
   _id: PropTypes.string.isRequired,
@@ -89,8 +101,8 @@ class BatchPage extends PureComponent {
 
     const { _id, title, students } = this.props.batch
     // console.log(this.props.match.params.batchId)
-
     const batchSize = students.length
+    //make linerProgress
     const listOfLastColorCodes = students.map(student => student.evaluations[student.evaluations.length-1].code)
 
     const greenStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "G")
@@ -102,11 +114,11 @@ class BatchPage extends PureComponent {
 
     return (
       <article className="batch-page">
-        <header>
-          <Paper className="result-wrapper" style={{ width: 600, display: 'inline-block' }}>
-            <h2>Evaluation Overview in {title}</h2>
+        <Paper style={style}>
+          <div className="result-wrapper">
+            <Typography variant="headline">Evaluation Overview in {title}</Typography>
 
-            <div style={{overflow:"hidden", whiteSpace:"nowrap"}} >
+            <div style={{overflow:"hidden", whiteSpace:"nowrap", marginTop:10}} >
               <div className="block G"></div> Green {greenPercentage}%
             </div>
             <div style={{overflow:"hidden", whiteSpace:"nowrap"}} >
@@ -120,26 +132,25 @@ class BatchPage extends PureComponent {
             <p>{this.getRandomStudent}</p>
 
             <div className="actions">
-            <Link to="/random-result">
-              <Button
-                className="primary"
-                color="primary"
-                onClick={this.getRandomStudent.bind(this)}>Ask a question</Button>
-            </Link>
+              <Link to="/random-result">
+                <Button
+                  variant="raised"
+                  className="primary"
+                  color="primary"
+                  onClick={this.getRandomStudent.bind(this)}>Ask a question</Button>
+              </Link>
             </div>
-          </Paper>
-
-          <div className="student-editor">
-            <StudentEditor />
           </div>
-        </header>
+          <StudentEditor />
+        </Paper>
 
         <main className="students-wrapper">
-          <h2>Students Overview in {title}</h2>
+          <Typography variant="display1" style={{marginLeft:20, marginTop: 20}}>Students Overview in {title}</Typography>
           <div className="students">
             {students.map(this.renderStudent.bind(this))}
           </div>
         </main>
+
       </article>
     )
   }
