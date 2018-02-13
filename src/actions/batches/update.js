@@ -11,11 +11,11 @@ const api = new API()
 export const STUDENT_UPDATED = 'STUDENT_UPDATED'
 export const STUDENT_REMOVED = 'STUDENT_REMOVED'
 
-export const updateStudent = (batchId, updatedStudent) => {
+export const updateStudent = (batchId, studentId, updatedStudent) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.patch(`/batches/${batchId}/update`, updatedStudent)
+    api.patch(`/batches/${batchId}/students/${studentId}`, updatedStudent)
       .then((res) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })

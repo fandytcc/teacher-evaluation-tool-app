@@ -95,22 +95,21 @@ class StudentPage extends PureComponent {
     })
   }
 
-  updateStudent(event, evaluations) {
+  updateStudent(event, evaluation) {
     this.setState({
       evaluatedAt: Date.now,
-      code: evaluations.code,
-      remark: evaluations.remark
+      remark: evaluation.remark
     })
   }
 
 //save studnet button
   saveStudent(event) {
     event.preventDefault()
-    const { batchId, studentId } = this.props
+    const { studentId, _id } = this.props.student
     const { code, remark, evaluatedAt } = this.state
     const student = {
+      _id: studentId,
       ...this.state,
-      id: studentId,
      }
     this.props.updateStudent(student)
   }
