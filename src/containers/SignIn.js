@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { replace, push } from 'react-router-redux'
-import Paper from 'material-ui/Paper'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
 import signIn from '../actions/user/sign-in'
 import Title from '../components/UI/Title'
+//material-ui
+import Paper from 'material-ui/Paper'
+import TextField from 'material-ui/TextField'
+import Button from 'material-ui/Button'
 
 const dialogStyle = {
   width: '400px',
@@ -58,14 +58,12 @@ export class SignIn extends PureComponent {
             <TextField ref="password" type="password" hintText="Password"  />
           </div>
         </form>
-        <FlatButton
-          onClick={ this.signUp.bind(this) }
-          label="Sign up" />
-        <RaisedButton
-          style={ buttonStyle }
-          onClick={ this.submitForm.bind(this) }
-          label="Sign in"
-          primary={true} />
+        <Button color="primary" onClick={ this.signUp.bind(this) }>
+          Sign Up
+        </Button>
+        <Button variant="raised" color="primary" onClick={ this.submitForm.bind(this) }>
+          Sign In
+        </Button>
       </Paper>
     )
   }

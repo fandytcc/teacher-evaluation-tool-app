@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { createBatch } from '../../actions/batches/create'
 import Title from '../../components/UI/Title'
+//material-ui & styling
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import DatePicker from 'material-ui/DatePicker'
+import Button from 'material-ui/Button'
 
 const style = {
   height: 320,
@@ -73,29 +73,31 @@ class BatchEditor extends PureComponent {
           </div>
 
           <div className="form">
-            <DatePicker
-              hintText="Start date"
-              ref="startDate"
+            <TextField
+              id="startDate"
+              label="Start date"
+              type="startDate"
               className="startDate"
               defaultValue={this.state.startDate}            onChange={this.updateStartDate.bind(this)}
               onKeyDown={this.updateStartDate.bind(this)} />
           </div>
 
           <div className="form">
-            <DatePicker
-              hintText="End date"
-              ref="endDate"
+            <TextField
+              id="endDate"
+              label="End date"
+              type="endDate"
               className="endDate"
               defaultValue={this.state.endDate}            onChange={this.updateEndDate.bind(this)}
               onKeyDown={this.updateEndDate.bind(this)} />
           </div>
 
           <div className="actions">
-            <RaisedButton
+            <Button
+              varient="raised"
               className="primary"
-              primary={true}
-              onClick={this.saveBatch.bind(this)}
-              label="Create Batch"/>
+              color="primary"
+              onClick={this.saveBatch.bind(this)}> Create Batch </Button>
           </div>
 
         </form>
