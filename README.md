@@ -2,7 +2,7 @@
 
 A React app for teachers to evaluate each student by assignment a colour code on a daily basis based on their performance. 
 
-This app is to learn how to use front-end frameworks [React.js](https://github.com/facebookincubator/create-react-app), [React-Redux](https://github.com/reactjs/redux) with back-end RESTful API [Express.js](https://github.com/expressjs/express) and NoSQL document database [MongoDB](https://github.com/mongodb/mongo) along with [mongoose] (https://github.com/Automattic/mongoose).
+This app is to learn how to use front-end frameworks [React.js](https://github.com/facebookincubator/create-react-app), [React-Redux](https://github.com/reactjs/redux) with back-end RESTful API [Express.js](https://github.com/expressjs/express) and NoSQL document database [MongoDB](https://github.com/mongodb/mongo) along with [Mongoose](https://github.com/Automattic/mongoose).
 
 These colour codes are: GREEN, YELLOW, and RED. GREEN meaning all good and on track. YELLOW meaning slightly off-track. RED meaning needs extra attention. If a students is marked YELLOW or RED, teachers will have to fill in a remark. For GREEN students, teachers are allowed to omit the remark.
 
@@ -21,7 +21,7 @@ These are the steps I followed when working on this app:
 8. Work on the key feature concerning the algorithm
 
 ## Database Structure & Back-end API
-Please refer to the related API repo: (https://github.com/fandytcc/teacher-evaluation-api)
+Please refer to the related API repo: https://github.com/fandytcc/teacher-evaluation-api
 
 ## Work-in-progress
 I built this final individual assignment within 4.5 days for Codaisseur Academy graduation assessment. After graduation, I'm currently working on the following features in both front-end & back-end:
