@@ -6,27 +6,27 @@ import { STUDENT_UPDATED, STUDENT_REMOVED } from '../actions/batches/update'
 export default (state = [], { type, payload } = {}) => {
   switch (type) {
     case FETCHED_BATCHES :
-      return Object.assign({}, state, {allBatches: payload})
+      return Object.assign({}, state, { allBatches: payload })
 
     case FETCHED_ONE_BATCH :
-      return Object.assign({}, state, {selectedBatch: payload})
+      return Object.assign({}, state, { selectedBatch: payload })
 
     case FETCHED_ONE_STUDENT :
-      return Object.assign({}, state, {selectedStudent: payload})
+      return Object.assign({}, state, { selectedStudent: payload })
 
     case BATCH_CREATED :
       return Object.assign({}, state, { allBatches: [payload].concat(state.allBatches) })
       // return [newBatch].concat(state)
 
     case STUDENT_CREATED :
-      const newStudent = Object.assign({}, state, { ...payload })
-      // return [newStudent].concat(state)
-      return state.map((batch) => {
-        if (batch._id === payload.batch._id) {
-          return [newStudent].concat(state)
-        }
-        return batch
-      })
+      return Object.assign({}, state, { selectedBatch: payload })
+      // const newStudent = Object.assign({}, state, { ...payload })
+      // return state.map((batch) => {
+      //   if (batch._id === payload.batch._id) {
+      //     return [newStudent].concat(state)
+      //   }
+      //   return batch
+      // })
 
     case STUDENT_UPDATED :
       return state.map((batch) => {
