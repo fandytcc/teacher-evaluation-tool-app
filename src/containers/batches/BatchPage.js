@@ -108,8 +108,8 @@ class BatchPage extends PureComponent {
     const greenStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "G")
     const redStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "R")
 
-    const greenPercentage = greenStudents.length/batchSize*100
-    const redPercentage = redStudents.length/batchSize*100
+    const greenPercentage = Math.round(greenStudents.length/batchSize*100)
+    const redPercentage = Math.round(redStudents.length/batchSize*100)
     const yellowPercentage = 100-greenPercentage-redPercentage
 
     return (
@@ -128,7 +128,6 @@ class BatchPage extends PureComponent {
               <div className="block R"></div> Red {redPercentage}%
             </div>
 
-            <p>{listOfLastColorCodes}</p>
             <p>{this.getRandomStudent}</p>
 
             <div className="actions">
