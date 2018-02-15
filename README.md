@@ -29,7 +29,7 @@ Please refer to the related API repo: https://github.com/fandytcc/teacher-evalua
 
 ## Work-in-progress
 I built this final individual assignment within 4.5 days for Codaisseur Academy graduation assessment. After graduation, I'm currently working on the following features in both front-end & back-end:
-  * Add, edit & remove students in a batch
+  * Edit & remove students in a batch
   * Save evaulations form and direct to student overview or next student
   * Edit evaulations
 
