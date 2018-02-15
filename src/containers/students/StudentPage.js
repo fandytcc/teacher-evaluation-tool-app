@@ -56,6 +56,7 @@ class StudentPage extends PureComponent {
     if (colorCode === "Y") return "#f1f495"
     if (colorCode === "G") return "#9ed1a7"
     if (colorCode === "R") return "#f24232"
+    if (colorCode === "W") return "#b3b6bc"
   }
 
   renderEvaluations(evaluation, index) {
