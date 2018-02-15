@@ -13,7 +13,7 @@ const style = {
   paddingTop: 16,
   paddngBottom: 16,
   paddingLeft: 40,
-  height: 400,
+  height: 300,
   width: 250,
   margin: 20,
   textAlign: 'left',
