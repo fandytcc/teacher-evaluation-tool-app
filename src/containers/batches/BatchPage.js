@@ -141,7 +141,7 @@ class BatchPage extends PureComponent {
               </Link>
             </div>
           </div>
-          <StudentEditor />
+          <StudentEditor batchId={this.props.match.params.batchId} />
         </Paper>
 
         <main className="students-wrapper">
@@ -157,7 +157,7 @@ class BatchPage extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  batch: state.batches.selectedBatch
+  batch: state.batches.selectedBatch,
 })
 
 export default connect(mapStateToProps, { fetchOneBatch })(BatchPage)

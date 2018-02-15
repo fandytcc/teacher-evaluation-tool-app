@@ -37,6 +37,7 @@ export const fetchBatches = () => {
 }
 
 export const fetchOneBatch = (batchId) => {
+  console.log('hello')
   return dispatch => {
     dispatch({ type: APP_LOADING })
 

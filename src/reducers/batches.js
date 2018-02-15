@@ -19,7 +19,7 @@ export default (state = [], { type, payload } = {}) => {
       // return [newBatch].concat(state)
 
     case STUDENT_CREATED :
-      return Object.assign({}, state, { allBatches: [payload].concat(state.allBatches) })
+      return Object.assign({}, state, { selectedBatch: payload })
       // const newStudent = Object.assign({}, state, { ...payload })
       // return state.map((batch) => {
       //   if (batch._id === payload.batch._id) {

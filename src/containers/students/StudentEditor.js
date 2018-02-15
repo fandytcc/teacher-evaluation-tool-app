@@ -15,7 +15,7 @@ class StudentEditor extends PureComponent {
 
     this.state = {
       name,
-      photo,
+      photo
     }
   }
 
@@ -31,13 +31,12 @@ class StudentEditor extends PureComponent {
     })
   }
 
-  saveStudent(batchId) {
+  saveStudent() {
     const student = { ...this.state }
-    this.props.createStudent(batchId, student)
+    this.props.createStudent(this.props.batchId, student)
   }
 
   render() {
-    console.log(this.props)
     return (
       <div className="student-editor">
         <Typography variant="headline">Create New Student</Typography>
