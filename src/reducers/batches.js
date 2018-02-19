@@ -20,24 +20,12 @@ export default (state = [], { type, payload } = {}) => {
 
     case STUDENT_CREATED :
       return Object.assign({}, state, { selectedBatch: payload })
-      // const newStudent = Object.assign({}, state, { ...payload })
-      // return state.map((batch) => {
-      //   if (batch._id === payload.batch._id) {
-      //     return [newStudent].concat(state)
-      //   }
-      //   return batch
-      // })
 
     case STUDENT_UPDATED :
-      return state.map((batch) => {
-        if (batch._id === payload.batch._id) {
-          return { ...payload }
-        }
-        return batch
-      })
+      return Object.assign({}, state, { selectedBatch: payload })
 
     case STUDENT_REMOVED :
-        return state.filter((student) => (student._id !== payload.student._id))
+      return Object.assign({}, state, { selectedBatch: payload })
 
     default :
       return state
