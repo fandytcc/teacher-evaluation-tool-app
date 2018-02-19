@@ -35,9 +35,11 @@ class StudentPage extends PureComponent {
   constructor(props) {
     super()
 
-    const { evaluatedAt, remark, code } = props
+    const { name, photo, evaluatedAt, remark, code } = props
 
     this.state = {
+      name,
+      photo,
       evaluatedAt,
       remark,
       code
@@ -53,9 +55,9 @@ class StudentPage extends PureComponent {
 
   checkColor(evaluation) {
     const colorCode = evaluation.code
-    if (colorCode === "Y") return "#f1f495"
-    if (colorCode === "G") return "#9ed1a7"
-    if (colorCode === "R") return "#f24232"
+    if (colorCode === "Y" || colorCode === "#f1f495") return "#f1f495"
+    if (colorCode === "G" || colorCode === "#00AA86") return "#9ed1a7"
+    if (colorCode === "R" || colorCode === "#D32F2F") return "#f24232"
     if (colorCode === "W") return "#b3b6bc"
   }
 
@@ -70,20 +72,14 @@ class StudentPage extends PureComponent {
   }
   // onClick={this.updateStudent(evaluation).bind(this)}
 
-  // goToBatch(event) {
+  // goToBatch() {
   //   const { batchId } = this.props.match.params
   //   this.props.push(`/batches/${batchId}`)
   // }
 
   // goToStudent = studentId => event => this.props.push(`${studentId}`)
 
-//delete student button
-  clearStudent(event) {
-    const { batchId, studentId } = this.props.match.params
-    this.props.clearStudent(batchId, studentId)
-  }
-
-//Edit student button
+//Evaluation form textfield
   updateEvaluatedAt(event, date) {
     this.setState({
       evaluatedAt: date
@@ -96,36 +92,38 @@ class StudentPage extends PureComponent {
     })
   }
 
-  updateStudent(event, evaluation) {
+//delete student button
+  clearStudent() {
+    const { batchId, studentId } = this.props.match.params
+    this.props.clearStudent(batchId, studentId)
+    this.props.push(`/batches/${batchId}`)
+  }
+
+//Edit student button
+  editStudent(event, evaluation) {
     this.setState({
       evaluatedAt: Date.now,
       remark: evaluation.remark
     })
   }
 
-//save studnet button
-  saveStudent(event) {
-    event.preventDefault()
-    const { studentId, _id } = this.props.student
-    const { code, remark, evaluatedAt } = this.state
-    const student = {
-      _id: studentId,
-      ...this.state,
-     }
-    this.props.updateStudent(student)
+//save student button
+  saveStudent() {
+    const { batchId, studentId } = this.props.match.params
+    const studentUpdates = { ...this.state }
+    this.props.updateStudent(batchId, studentId, studentUpdates)
   }
 
-//save student and next button
+// save student and next button
   saveStudentAndNext() {
     const { batchId, studentId } = this.props.match.params
-    const { code, remark, evaluatedAt } = this.state
-    const student = { ...this.state }
-    this.props.updateStudent(student)
+    const studentUpdates = { ...this.state }
+    this.props.updateStudent(batchId, studentId, studentUpdates)
   }
 
   render() {
     if (!this.props.student) return null
-    const { _id, name, photo, evaluations } = this.props.student
+    const { name, photo, evaluations } = this.props.student
     console.log(this.props.student)
 
     return(
@@ -138,7 +136,7 @@ class StudentPage extends PureComponent {
             <Typography variant="headline">{ name }</Typography>
               { photo && <img src={ photo } alt="Student Images"/> }
             <Typography variant="title">All Evaluations</Typography>
-            { evaluations.map(this.renderEvaluations.bind(this)) }
+            { evaluations && evaluations.map(this.renderEvaluations.bind(this)) }
           </div>
 
           <div className="evaluation-form">
@@ -153,7 +151,7 @@ class StudentPage extends PureComponent {
                   className="text-field"
                   autoOk={true}
                   fullWidth={true}
-                  defaultValue={Date.now}
+                  value={this.state.evaluatedAt}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -166,19 +164,19 @@ class StudentPage extends PureComponent {
                   variant="raised"
                   className="red"
                   style={{margin:5, backgroundColor:"#D32F2F", color: "#DEDEDE"}}
-                  onClick={this.setState({ code:"#D32F2F"})}>Red</Button>
+                  onClick={ this.setState({ code:"#D32F2F"}) }>Red</Button>
 
                 <Button
                   variant="raised"
                   className="yellow"
                   style={{margin:5, backgroundColor:"#f1f495", color: "#DEDEDE"}}
-                  onClick={this.setState({ code:"#f1f495"})}>Yellow</Button>
+                  onClick={ this.setState({ code:"#f1f495"}) }>Yellow</Button>
 
                 <Button
                   variant="raised"
                   className="green"
                   style={{margin:5, backgroundColor:"#00AA86", color:"#DEDEDE"}}
-                  onClick={this.setState({ code:"#00AA86"})}>Green</Button>
+                  onClick={ this.setState({ code:"#00AA86"}) }>Green</Button>
 
                 <TextField
                   type="text"
@@ -189,9 +187,9 @@ class StudentPage extends PureComponent {
                   rows={2}
                   rowsMax={4}
                   fullWidth={true}
-                  value={this.state.remark}
-                  onChange={this.updateRemark.bind(this)}
-                  onKeyDown={this.updateRemark.bind(this)} />
+                  value={ this.state.remark }
+                  onChange={ this.updateRemark.bind(this) }
+                  onKeyDown={ this.updateRemark.bind(this) } />
               </div>
 
               <div className="submit-action">
@@ -200,21 +198,21 @@ class StudentPage extends PureComponent {
                   className="submit-button"
                   color="primary"
                   style={{margin:5}}
-                  onClick={this.clearStudent.bind(this)}>DELETE</Button>
+                  onClick={ this.clearStudent.bind(this) }>DELETE</Button>
 
                 <Button
                   variant="raised"
                   className="submit-button"
                   color="primary"
                   style={{margin:5}}
-                  onClick={this.updateStudent.bind(this)}>EDIT</Button>
+                  onClick={ this.editStudent.bind(this) }>EDIT</Button>
 
                 <Button
                   variant="raised"
                   className="submit-button"
                   color="primary"
                   style={{margin:5}}
-                  onClick={this.saveStudent.bind(this)}>SAVE</Button>
+                  onClick={ this.saveStudent.bind(this) }>SAVE</Button>
 
                 <Button
                   variant="raised"

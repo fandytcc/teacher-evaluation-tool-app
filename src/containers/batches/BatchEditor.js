@@ -74,7 +74,7 @@ class BatchEditor extends PureComponent {
               label="Start date"
               type="date"
               className="text-field"
-              defaultValuevalue={this.state.startDate}
+              defaultValue={this.state.startDate}
               InputLabelProps={{
                 shrink: true,
               }}
