@@ -29,9 +29,8 @@ Please refer to the related API repo: https://github.com/fandytcc/teacher-evalua
 
 ## Work-in-progress
 I built this final individual assignment within 4.5 days for Codaisseur Academy graduation assessment. After graduation, I'm currently working on the following features in both front-end & back-end:
-  * Edit & remove students in a batch
-  * Save evaulations form and direct to student overview or next student
-  * Edit evaulations
+  * Edit button on student page
+  * Save & next button on student page
 
 ## Running Locally
 Make sure you have [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/) installed.
