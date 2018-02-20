@@ -116,7 +116,7 @@ class BatchPage extends PureComponent {
       <article className="batch-page">
         <Paper style={style}>
           <div className="result-wrapper">
-            <Typography variant="headline">Evaluation Overview in {title}</Typography>
+            <Typography variant="headline">Evaluation Overview in Batch# {title}</Typography>
 
             <div style={{overflow:"hidden", whiteSpace:"nowrap", marginTop:10}} >
               <div className="block G"></div> Green {greenPercentage}%
@@ -144,7 +144,7 @@ class BatchPage extends PureComponent {
         </Paper>
 
         <main className="students-wrapper">
-          <Typography variant="display1" style={{marginLeft:20, marginTop: 20}}>Students Overview in {title}</Typography>
+          <Typography variant="display1" style={{marginLeft:20, marginTop: 20}}>Students Overview in Batch# {title} </Typography>
           <div className="students">
             {students.map(this.renderStudent.bind(this))}
           </div>

@@ -54,7 +54,7 @@ class BatchEditor extends PureComponent {
 
   render() {
     return (
-      <Paper className="editor" style={style} zDepth={2}>
+      <Paper className="editor" style={style} elevation={2}>
         <Title content="Create New Batch: " />
 
         <form onSubmit={this.saveBatch.bind(this)} className="container">

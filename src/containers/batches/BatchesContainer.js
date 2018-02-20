@@ -10,7 +10,7 @@ import Typography from 'material-ui/Typography'
 import './BatchesContainer.css'
 
 class BatchesContainer extends PureComponent {
-  static propTypes = {
+  static PropTypes = {
     batches: PropTypes.arrayOf(batchShape).isRequired,
   }
 

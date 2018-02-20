@@ -37,7 +37,7 @@ class StudentItem extends PureComponent {
     const { _id, name, photo, batchId } = this.props
 
     return (
-      <Paper className="StudentItem" style={style} zDepth={2}>
+      <Paper className="StudentItem" style={style} elevation={2}>
         <header>
           <Link to={`/batches/${batchId}/students/${_id}`}>
             <Typography variant="title">{ name }</Typography>

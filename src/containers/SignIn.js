@@ -71,17 +71,18 @@ export class SignIn extends PureComponent {
           <div className="input">
             <TextField
               id="email"
+              label="Email address"
               type="email"
               margin="normal"
-              label="Email address" onChange={this.updateEmail.bind(this)} />
+              onChange={this.updateEmail.bind(this)} />
           </div>
           <div className="input">
             <TextField
               id="password"
-              variant="password"
-              margin="normal"
               label="Password"
+              type="password"
               autoComplete="current-password"
+              margin="normal"
               onChange={this.updatePassword.bind(this)}/>
           </div>
         </form>

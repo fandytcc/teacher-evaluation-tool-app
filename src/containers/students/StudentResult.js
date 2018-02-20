@@ -20,7 +20,7 @@ class StudentResult extends PureComponent {
   render() {
 
     return (
-      <Paper className="Result" style={style} zDepth={2}>
+      <Paper className="Result" style={style} elevation={2}>
       </Paper>
     )
   }
