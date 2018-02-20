@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-// import Title from '../../components/UI/Title'
 import { fetchBatches, fetchOneStudent } from '../../actions/batches/fetch'
 import { updateStudent, clearStudent } from '../../actions/batches/update'
 //material-ui & styling
@@ -13,7 +12,7 @@ import Button from 'material-ui/Button'
 import './StudentPage.css'
 
 //styling Paper
-const style = {
+const paperStyle = {
   paddingTop: 100,
   paddingBottom: 25,
   paddingLeft: 25,
@@ -55,10 +54,10 @@ class StudentPage extends PureComponent {
 
   checkColor(evaluation) {
     const colorCode = evaluation.code
-    if (colorCode === "Y" || colorCode === "#f1f495") return "#f1f495"
-    if (colorCode === "G" || colorCode === "#00AA86") return "#9ed1a7"
-    if (colorCode === "R" || colorCode === "#D32F2F") return "#f24232"
-    if (colorCode === "W") return "#b3b6bc"
+    if (colorCode === "Y" || colorCode === "#FFE66D") return "#FFE66D"
+    if (colorCode === "G" || colorCode === "#4ECDC4") return "#4ECDC4"
+    if (colorCode === "R" || colorCode === "#FF6B6B") return "#FF6B6B"
+    if (colorCode === 'W') return "#b3b6bc"
   }
 
   renderEvaluations(evaluation, index) {
@@ -72,10 +71,10 @@ class StudentPage extends PureComponent {
   }
   // onClick={this.updateStudent(evaluation).bind(this)}
 
-  // goToBatch() {
-  //   const { batchId } = this.props.match.params
-  //   this.props.push(`/batches/${batchId}`)
-  // }
+  goToBatch() {
+    const { batchId } = this.props.match.params
+    this.props.push(`/batches/${batchId}`)
+  }
 
   // goToStudent = studentId => event => this.props.push(`${studentId}`)
 
@@ -96,13 +95,13 @@ class StudentPage extends PureComponent {
   clearStudent() {
     const { batchId, studentId } = this.props.match.params
     this.props.clearStudent(batchId, studentId)
-    this.props.push(`/batches/${batchId}`)
+    this.goToBatch()
   }
 
 //Edit student button
   editStudent(event, evaluation) {
     this.setState({
-      evaluatedAt: Date.now,
+      evaluatedAt: new Date(),
       remark: evaluation.remark
     })
   }
@@ -123,21 +122,20 @@ class StudentPage extends PureComponent {
 
   render() {
     if (!this.props.student) return null
-    const { name, photo, evaluations } = this.props.student
+    const { _id, name, photo, evaluations } = this.props.student
     console.log(this.props.student)
 
     return(
-        <Paper className="Result" style={style} zDepth={2}>
-
-          <div className="student-details">
-            <Typography variant="title">
-              {this.props.batch && this.props.batch.title}
-            </Typography>
-            <Typography variant="headline">{ name }</Typography>
+        <Paper className="Result" style={paperStyle} elevation={2}>
+            <div className="student-details">
+              <Typography variant="headline">{ name }</Typography>
+              <Typography variant="title">
+                Batch# {this.props.batch && this.props.batch.title}
+              </Typography>
               { photo && <img src={ photo } alt="Student Images"/> }
-            <Typography variant="title">All Evaluations</Typography>
-            { evaluations && evaluations.map(this.renderEvaluations.bind(this)) }
-          </div>
+              <Typography variant="title">All Evaluations</Typography>
+              { evaluations && evaluations.map(this.renderEvaluations.bind(this)) }
+            </div>
 
           <div className="evaluation-form">
             <Typography variant="title">Daily Evaluation</Typography>
@@ -146,50 +144,55 @@ class StudentPage extends PureComponent {
               <div className="form">
                 <TextField
                   id="evaluationDate"
-                  label="Evaluation date (default is set as today)"
+                  label="Evaluation date"
                   type="date"
                   className="text-field"
-                  autoOk={true}
-                  fullWidth={true}
-                  value={this.state.evaluatedAt}
+                  dafaultvalue={this.state.evaluatedAt}
                   InputLabelProps={{
                     shrink: true,
                   }}
                   style={{marginTop: 20, marginBottom: 20}}
                   onChange={this.updateEvaluatedAt.bind(this)}
-                  onKeyDown={this.updateEvaluatedAt.bind(this)} />
+                  onKeyDown={this.updateEvaluatedAt.bind(this)}
+                  autoFocus
+                  helperText="Default is set as today!"
+                  fullWidth />
 
                 <Typography variant="body1">Evaluation code for today</Typography>
                 <Button
                   variant="raised"
                   className="red"
-                  style={{margin:5, backgroundColor:"#D32F2F", color: "#DEDEDE"}}
-                  onClick={ this.setState({ code:"#D32F2F"}) }>Red</Button>
+                  style={{margin:5, backgroundColor:"#FF6B6B", color:"#FFFFFF"}}
+                  onClick={ this.setState({code:"#FF6B6B"}) }>Red</Button>
 
                 <Button
                   variant="raised"
                   className="yellow"
-                  style={{margin:5, backgroundColor:"#f1f495", color: "#DEDEDE"}}
-                  onClick={ this.setState({ code:"#f1f495"}) }>Yellow</Button>
+                  style={{margin:5, backgroundColor:"#FFE66D", color:"#FFFFFF" }}
+                  onClick={ this.setState({code:"#FFE66D"}) }>Yellow</Button>
 
                 <Button
                   variant="raised"
                   className="green"
-                  style={{margin:5, backgroundColor:"#00AA86", color:"#DEDEDE"}}
-                  onClick={ this.setState({ code:"#00AA86"}) }>Green</Button>
+                  style={{ margin:5, backgroundColor:"#4ECDC4", color:"#FFFFFF" }}
+                  onClick={ this.setState({code:"#4ECDC4"}) }>Green</Button>
 
                 <TextField
-                  type="text"
                   id="remark"
                   className="remark"
-                  label="Remarks for this student"
-                  multiLine={true}
-                  rows={2}
-                  rowsMax={4}
-                  fullWidth={true}
+                  label="Remarks"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  margin="normal"
                   value={ this.state.remark }
                   onChange={ this.updateRemark.bind(this) }
-                  onKeyDown={ this.updateRemark.bind(this) } />
+                  onKeyDown={ this.updateRemark.bind(this) }
+                  multiline
+                  rowsMax="4"
+                  placeholder="Today's remarks"
+                  fullWidth />
+
               </div>
 
               <div className="submit-action">
@@ -219,7 +222,7 @@ class StudentPage extends PureComponent {
                   className="submit-button"
                   color="primary"
                   style={{margin:5}}
-                  onClick={this.saveStudentAndNext.bind(this)}>SAVE & NEXT</Button>
+                  onClick={() => this.saveStudentAndNext(_id)}>SAVE & NEXT</Button>
               </div>
             </form>
           </div>
