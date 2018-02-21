@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
-import { fetchBatches, fetchOneStudent } from '../../actions/batches/fetch'
+import { push, replace } from 'react-router-redux'
+import { fetchOneBatch, fetchOneStudent } from '../../actions/batches/fetch'
 import { updateStudent, clearStudent } from '../../actions/batches/update'
 //material-ui & styling
 import Paper from 'material-ui/Paper'
@@ -33,15 +33,14 @@ export const studentShape = PropTypes.shape({
 class StudentPage extends PureComponent {
   constructor(props) {
     super()
-
     const { name, photo, evaluatedAt, remark, code } = props
-
     this.state = {
       name,
       photo,
       evaluatedAt,
       remark,
-      code
+      code,
+      index: 0
     }
   }
 
@@ -49,46 +48,110 @@ class StudentPage extends PureComponent {
     const batchId = this.props.match.params.batchId
     const studentId = this.props.match.params.studentId
 
+    this.props.fetchOneBatch(batchId)
     this.props.fetchOneStudent(batchId, studentId)
   }
 
   checkColor(evaluation) {
     const colorCode = evaluation.code
-    if (colorCode === "Y" || colorCode === "#FFE66D") return "#FFE66D"
-    if (colorCode === "G" || colorCode === "#4ECDC4") return "#4ECDC4"
-    if (colorCode === "R" || colorCode === "#FF6B6B") return "#FF6B6B"
+    if (colorCode === "Y") return "#FFE66D"
+    if (colorCode === "G") return "#4ECDC4"
+    if (colorCode === "R") return "#FF6B6B"
     if (colorCode === 'W') return "#b3b6bc"
   }
 
   renderEvaluations(evaluation, index) {
+    const evaluationId = evaluation._id
     return (
       <Button
         key={index}
         variant="flat"
         className="evaluation-code"
-        style={{ backgroundColor: this.checkColor(evaluation), margin:1 }}></Button>
+        style={{ backgroundColor:this.checkColor(evaluation), margin:1 }}
+        onClick={() => this.handleClick(evaluationId)}></Button>
     )
   }
-  // onClick={this.updateStudent(evaluation).bind(this)}
+
+  selectEvaluation(evaluationId) {
+    if (evaluationId === this.state.evaluation._id) {
+      this.setState({ selectedEvaluationId: null })
+    } else {
+      this.setState({ selectedEvaluationId: evaluationId})
+    }
+  }
+
+  handleClick = (evaluationId) => {
+    this.selectEvaluation(evaluationId)
+  }
+
+// view selected evaluation details after pressing EDIT button
+  viewSelectedEvaluation() {
+    const { evaluations } = this.props.student
+    evaluations.map(evaluation => {
+      this.setState({
+        evaluatedAt: this.state.evaluation.evaluatedAt,
+        remark: this.state.evaluation.remark,
+        code: this.state.evaluation.code
+      })
+    })
+  }
+
+//Edit student button??
+  editStudent(evaluation) {
+    this.setState({
+      evaluatedAt: new Date(),
+      remark: evaluation.remark
+    })
+  }
+
+//Evaluation form textfield
+  updateEvaluatedAt(date) {
+    this.setState({
+      evaluatedAt: date
+    })
+  }
+
+//validateRemark: compulsory field for yellow & red
+  updateRemark(event) {
+    this.setState({
+      remark: event.target.value
+    })
+  }
 
   goToBatch() {
     const { batchId } = this.props.match.params
     this.props.push(`/batches/${batchId}`)
   }
 
-  // goToStudent = studentId => event => this.props.push(`${studentId}`)
-
-//Evaluation form textfield
-  updateEvaluatedAt(event, date) {
-    this.setState({
-      evaluatedAt: date
-    })
+//save student button
+  saveStudent(event) {
+    event.preventDefault()
+    const { batchId, studentId } = this.props.match.params
+    const studentUpdates = { ...this.state }
+    this.props.updateStudent(batchId, studentId, studentUpdates)
+    this.goToBatch()
   }
 
-  updateRemark(event) {
-    this.setState({
-      remark: event.target.value
-    })
+// save student and next button
+  findNextStudent() {
+    const { batch, student } = this.props
+    let i = student.indexOf(this.state.index)
+
+    if (i >= 0 && i < batch.students.length)
+      this.setState({ index: i + 1 })
+
+    const nextStudentId = student[this.state.index]._id
+  }
+
+  goToNextStudent = nextStudentId => event => {
+    const { batchId, studentId } = this.props.match.params
+    this.findNextStudent()
+    this.props.replace(`/batches/${batchId}/students/${nextStudentId}`)
+  }
+
+  saveStudentAndNext() {
+    this.saveStudent()
+    this.goToNextStudent()
   }
 
 //delete student button
@@ -98,32 +161,10 @@ class StudentPage extends PureComponent {
     this.goToBatch()
   }
 
-//Edit student button
-  editStudent(event, evaluation) {
-    this.setState({
-      evaluatedAt: new Date(),
-      remark: evaluation.remark
-    })
-  }
-
-//save student button
-  saveStudent() {
-    const { batchId, studentId } = this.props.match.params
-    const studentUpdates = { ...this.state }
-    this.props.updateStudent(batchId, studentId, studentUpdates)
-  }
-
-// save student and next button
-  saveStudentAndNext() {
-    const { batchId, studentId } = this.props.match.params
-    const studentUpdates = { ...this.state }
-    this.props.updateStudent(batchId, studentId, studentUpdates)
-  }
-
   render() {
-    if (!this.props.student) return null
+    if (!this.props.batch || !this.props.student) return null
     const { _id, name, photo, evaluations } = this.props.student
-    console.log(this.props.student)
+    console.log(this.props)
 
     return(
         <Paper className="Result" style={paperStyle} elevation={2}>
@@ -147,13 +188,12 @@ class StudentPage extends PureComponent {
                   label="Evaluation date"
                   type="date"
                   className="text-field"
-                  dafaultvalue={this.state.evaluatedAt}
+                  value={this.state.evaluatedAt}
                   InputLabelProps={{
                     shrink: true,
                   }}
                   style={{marginTop: 20, marginBottom: 20}}
                   onChange={this.updateEvaluatedAt.bind(this)}
-                  onKeyDown={this.updateEvaluatedAt.bind(this)}
                   autoFocus
                   helperText="Default is set as today!"
                   fullWidth />
@@ -163,19 +203,19 @@ class StudentPage extends PureComponent {
                   variant="raised"
                   className="red"
                   style={{margin:5, backgroundColor:"#FF6B6B", color:"#FFFFFF"}}
-                  onClick={ this.setState({code:"#FF6B6B"}) }>Red</Button>
+                  onClick={ this.setState({code:"R"}) }>Red</Button>
 
                 <Button
                   variant="raised"
                   className="yellow"
                   style={{margin:5, backgroundColor:"#FFE66D", color:"#FFFFFF" }}
-                  onClick={ this.setState({code:"#FFE66D"}) }>Yellow</Button>
+                  onClick={ this.setState({code:"Y"}) }>Yellow</Button>
 
                 <Button
                   variant="raised"
                   className="green"
                   style={{ margin:5, backgroundColor:"#4ECDC4", color:"#FFFFFF" }}
-                  onClick={ this.setState({code:"#4ECDC4"}) }>Green</Button>
+                  onClick={ this.setState({code:"G"}) }>Green</Button>
 
                 <TextField
                   id="remark"
@@ -187,7 +227,6 @@ class StudentPage extends PureComponent {
                   margin="normal"
                   value={ this.state.remark }
                   onChange={ this.updateRemark.bind(this) }
-                  onKeyDown={ this.updateRemark.bind(this) }
                   multiline
                   rowsMax="4"
                   placeholder="Today's remarks"
@@ -222,7 +261,7 @@ class StudentPage extends PureComponent {
                   className="submit-button"
                   color="primary"
                   style={{margin:5}}
-                  onClick={() => this.saveStudentAndNext(_id)}>SAVE & NEXT</Button>
+                  onClick={this.saveStudentAndNext.bind(this)}>SAVE & NEXT</Button>
               </div>
             </form>
           </div>
@@ -237,9 +276,10 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-fetchBatches,
+fetchOneBatch,
 fetchOneStudent,
 updateStudent,
 clearStudent,
-push
+push,
+replace
 })(StudentPage)
