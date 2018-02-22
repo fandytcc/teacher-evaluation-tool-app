@@ -6,8 +6,8 @@ This app is to learn how to use front-end frameworks [React.js](https://github.c
 
 These colour codes are: GREEN, YELLOW, and RED. GREEN meaning all good and on track. YELLOW meaning slightly off-track. RED meaning needs extra attention. If a students is marked YELLOW or RED, teachers will have to fill in a remark. For GREEN students, teachers are allowed to omit the remark.
 
-<img width="600" alt="screen shot 2018-02-15 at 10 36 49" src="https://user-images.githubusercontent.com/32798242/36249857-5c23f52a-123c-11e8-8933-95171019ecc9.png">
-<img width="600" alt="screen shot 2018-02-15 at 10 37 18" src="https://user-images.githubusercontent.com/32798242/36249858-5dc7a02a-123c-11e8-884a-c7b29c188132.png">
+<img width="1000" alt="screen shot 2018-02-22 at 15 39 30" src="https://user-images.githubusercontent.com/32798242/36544456-d2bf7cd6-17e6-11e8-90c4-fd9bd1fc202e.png">
+<img width="1000" alt="screen shot 2018-02-22 at 15 40 23" src="https://user-images.githubusercontent.com/32798242/36544454-d27aac64-17e6-11e8-9f6e-cd5de5aa20de.png">
 
 ## Algorithm
 From the class view, a teacher can click a button “ASK A QUESTION”. It shows the name and picture of a random student for the teacher to ask a question. RED students get ~47% of the questions YELLOW students ~32%, and GREEN students ~21%. 
@@ -34,6 +34,11 @@ I built this final individual assignment within 4.5 days for Codaisseur Academy 
 
 ## Running Locally
 Make sure you have [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/en/) installed.
+
+[IMPORTANT!]
+Make sure you have signed in with the details below. Otherwise, it won't work!!
+* login email: paul@test.com
+* password: a123456
 
 ```bash
 git clone git@github.com:fandytcc/teacher-evaluation-tool-app.git
