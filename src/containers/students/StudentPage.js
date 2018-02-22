@@ -67,6 +67,11 @@ class StudentPage extends PureComponent {
     })
   }
 
+  changeColor = (event) => {
+    const color = event.currentTarget.value
+    this.setState({code: color})
+  }
+
   checkColor(evaluation) {
     const colorCode = evaluation.code
     if (colorCode === "Y") return "#FFE66D"
@@ -128,13 +133,9 @@ class StudentPage extends PureComponent {
   findNextStudent() {
     const { studentId } = this.props.match.params
     const { batch } = this.props
-    console.log(batch)
-    console.log(studentId)
 
     let studentIndex = batch.students.findIndex(student => student._id === studentId)
-    console.log(studentIndex)
     let nextStudentIndex = studentIndex + 1
-    console.log(nextStudentIndex)
 
     if (nextStudentIndex === batch.students.length) {
       return batch.students[0]._id
@@ -146,7 +147,6 @@ class StudentPage extends PureComponent {
   goToNextStudent() {
     const { batchId } = this.props.match.params
     const nextStudentId = this.findNextStudent()
-    console.log(nextStudentId)
     this.props.replace(`/batches/${batchId}/students/${nextStudentId}`)
   }
 
@@ -166,7 +166,6 @@ class StudentPage extends PureComponent {
     if (!this.props.batch || !this.props.student) return null
     const { name, photo, evaluations } = this.props.student
     console.log(this.props)
-    console.log(this.state)
 
     return(
       <Paper className="student-container" style={paperStyle} elevation={2}>
@@ -215,21 +214,24 @@ class StudentPage extends PureComponent {
             <div className="color-buttons">
               <Button
                 variant="raised"
+                value='R'
                 className="red"
                 style={{margin:5, backgroundColor:"#FF6B6B", color:"#FFFFFF"}}
-                onClick={this.setState({code:"R"})}>Red</Button>
+                onClick={this.changeColor}>Red</Button>
 
               <Button
                 variant="raised"
+                value='Y'
                 className="yellow"
                 style={{margin:5, backgroundColor:"#FFE66D", color:"#FFFFFF" }}
-                onClick={this.setState({code:"Y"})}>Yellow</Button>
+                onClick={this.changeColor}>Yellow</Button>
 
               <Button
                 variant="raised"
-                className="green"
+                value='G'
+                className="G"
                 style={{ margin:5, backgroundColor:"#4ECDC4", color:"#FFFFFF" }}
-                onClick={this.setState({code:"G"})}>Green</Button>
+                onClick={this.changeColor}>Green</Button>
             </div>
 
             <TextField
@@ -284,10 +286,16 @@ class StudentPage extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  batch: state.batches.selectedBatch,
-  student: state.batches.selectedStudent,
+const mapStateToProps = ( { batches }, { match }) => ({
+  batch: batches.selectedBatch,
+  student: batches.selectedStudent
 })
+
+//job-to-be-done... change all match.params.studentId to student._id: find student under fetchOneBatch to ensure rendering of next student works..
+// const mapStateToProps = ( { batches }, { match }) => ({
+//   batch: batches.selectedBatch,
+//   student: batches.studentsPerBatch.find(student => student._id === match.params.studentId)
+// })
 
 export default connect(mapStateToProps, {
 fetchOneBatch,
