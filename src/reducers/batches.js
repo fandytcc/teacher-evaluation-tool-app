@@ -9,7 +9,8 @@ export default (state = [], { type, payload } = {}) => {
       return Object.assign({}, state, { allBatches: payload })
 
     case FETCHED_ONE_BATCH :
-      return Object.assign({}, state, { selectedBatch: payload })
+    console.log(payload)
+      return Object.assign({}, state, { selectedBatch: payload, studentsPerBatch: payload.students })
 
     case FETCHED_ONE_STUDENT :
       return Object.assign({}, state, { selectedStudent: payload })

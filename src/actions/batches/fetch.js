@@ -37,12 +37,12 @@ export const fetchBatches = () => {
 }
 
 export const fetchOneBatch = (batchId) => {
-  console.log('hello')
   return dispatch => {
     dispatch({ type: APP_LOADING })
 
     api.get(`/batches/${batchId}`)
       .then((res) => {
+        console.log(res)
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
 
@@ -84,27 +84,3 @@ export const fetchOneStudent = (batchId, studentId) => {
       })
   }
 }
-
-// export const fetchStudents = (batchId) => {
-//   return dispatch => {
-//     dispatch({ type: APP_LOADING })
-//
-//     api.get(`/batches/${batchId}/students`)
-//       .then((result) => {
-//         dispatch({ type: APP_DONE_LOADING })
-//         dispatch({ type: LOAD_SUCCESS })
-//
-//         dispatch({
-//           type: FETCHED_STUDENTS,
-//           payload: result.body,
-//         })
-//       })
-//       .catch((error) => {
-//         dispatch({ type: APP_DONE_LOADING })
-//         dispatch({
-//           type: LOAD_ERROR,
-//           payload: error.message
-//         })
-//       })
-//   }
-// }
