@@ -10,17 +10,20 @@ import StudentEditor from '../../containers/students/StudentEditor'
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
+import { withStyles } from 'material-ui/styles'
+import Avatar from 'material-ui/Avatar'
+import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List'
+import Dialog, { DialogTitle } from 'material-ui/Dialog'
 import '../students/StudentItem.css'
 import './BatchPage.css'
 
 //styling Paper
 const style = {
-  paddingTop: 16,
-  paddingBottom: 16,
-  height: 300,
-  width: 1350,
-  margin: 16,
+  height: 250,
+  width: 300,
   display: 'inline-block',
+  margin: 16,
+  marginLeft: 90,
 }
 
 export const batchShape = PropTypes.shape({
@@ -32,6 +35,10 @@ export const batchShape = PropTypes.shape({
 })
 
 class BatchPage extends PureComponent {
+  state = {
+    open: false,
+  }
+
   static propTypes = {
     ...batchShape.isRequired,
     result: PropTypes.string,
@@ -81,20 +88,29 @@ class BatchPage extends PureComponent {
     let result2 = ""
       if (randomColor === "G") {
         const randomNum = this.getRandomNum(0, greenStudents.length-1)
-        result = greenStudents[randomNum].name
-        result2 = greenStudents[randomNum].photo
+        result = greenStudents && greenStudents[randomNum].name
+        result2 = greenStudents && greenStudents[randomNum].photo
       } else if (randomColor === "Y") {
         const randomNum = this.getRandomNum(0, yellowStudents.length-1)
-        result = yellowStudents[randomNum].name
-        result2 = greenStudents[randomNum].photo
+        result = yellowStudents && yellowStudents[randomNum].name
+        result2 = yellowStudents && yellowStudents[randomNum].photo
       } else if (randomColor === "R") {
         const randomNum = this.getRandomNum(0, redStudents.length-1)
-        result = redStudents[randomNum].name
-        result2 = greenStudents[randomNum].photo
+        result = redStudents && redStudents[randomNum].name
+        result2 = redStudents && redStudents[randomNum].photo
       }
       alert(result)
       alert(result2)
   }
+
+//dialogue - ask a question
+  // handleClose = () => {
+  //   this.props.onClose(this.props.selectedValue);
+  // }
+  //
+  // handleListItemClick = value => {
+  //   this.props.onClose(value);
+  // }
 
   render() {
     if (!this.props.batch) return null
@@ -102,8 +118,6 @@ class BatchPage extends PureComponent {
     const { _id, title, students } = this.props.batch
     // console.log(this.props.match.params.batchId)
     const batchSize = students.length
-    //make linerProgress
-    const listOfLastColorCodes = students.map(student => student.evaluations[student.evaluations.length-1].code)
 
     const greenStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "G")
     const redStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "R")
@@ -115,36 +129,42 @@ class BatchPage extends PureComponent {
     return (
       <article className="batch-page">
         <Paper style={style}>
-          <div className="result-wrapper">
-            <Typography variant="headline">Evaluation Overview in Batch# {title}</Typography>
-
-            <div style={{overflow:"hidden", whiteSpace:"nowrap", marginTop:10}} >
-              <div className="block G"></div> Green {greenPercentage}%
-            </div>
-            <div style={{overflow:"hidden", whiteSpace:"nowrap"}} >
-              <div className="block Y"></div> Yellow {yellowPercentage}%
-            </div>
-            <div style={{overflow:"hidden", whiteSpace:"nowrap"}} >
-              <div className="block R"></div> Red {redPercentage}%
-            </div>
-
-            <p>{this.getRandomStudent}</p>
-
-            <div className="actions">
-              <Link to="/random-result">
-                <Button
-                  variant="raised"
-                  className="primary"
-                  color="primary"
-                  onClick={this.getRandomStudent.bind(this)}>Ask a question</Button>
-              </Link>
-            </div>
+          <div className="student-editor">
+            <StudentEditor batchId={this.props.match.params.batchId} />
           </div>
-          <StudentEditor batchId={this.props.match.params.batchId} />
         </Paper>
 
+        <header className="blocks-wrapper">
+          <Typography variant="display1">
+            Students Overview in Batch#{title}
+          </Typography>
+
+          <Typography variant="display1" style={{float:'left', marginRight: 20}}>Evaluations Overview</Typography>
+
+          <Button
+            variant="raised"
+            className="primary"
+            color="primary"
+            onClick={this.getRandomStudent.bind(this)}>
+            Ask a question
+          </Button>
+
+          <div className="evaluation-overview">
+            <div className="color-block" style={{width:`${greenPercentage}%`, background: "#4ECDC4"}}>
+              <p>{greenPercentage}%</p>
+            </div>
+
+            <div className="color-block" style={{width:`${yellowPercentage}%`, background: "#FFE66D"}}>
+              <p>{yellowPercentage}%</p>
+            </div>
+
+            <div className="color-block" style={{width:`${redPercentage}%`, background: "#FF6B6B"}}>
+              <p>{redPercentage}%</p>
+            </div>
+          </div>
+        </header>
+
         <main className="students-wrapper">
-          <Typography variant="display1" style={{marginLeft:20, marginTop: 20}}>Students Overview in Batch# {title} </Typography>
           <div className="students">
             {students.map(this.renderStudent.bind(this))}
           </div>
