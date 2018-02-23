@@ -31,16 +31,13 @@ export const studentShape = PropTypes.shape({
 })
 
 class StudentPage extends PureComponent {
-  constructor(props) {
-    super()
-    const { name, photo, evaluatedAt, remark, code } = props
-    this.state = {
-      name,
-      photo,
-      evaluatedAt,
-      remark,
-      code
-    }
+
+  state = {
+    name: "",
+    photo:"",
+    evaluatedAt:"",
+    remark:"",
+    code:""
   }
 
   componentWillMount() {
