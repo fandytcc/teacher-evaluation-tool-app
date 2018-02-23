@@ -8,19 +8,20 @@ import { updateStudent, clearStudent } from '../../actions/batches/update'
 import Paper from 'material-ui/Paper'
 import Typography from 'material-ui/Typography'
 import TextField from 'material-ui/TextField'
+import Avatar from 'material-ui/Avatar'
 import Button from 'material-ui/Button'
+import ThumbsUpDownIcon from 'material-ui-icons/ThumbsUpDown'
+import ThumbDownIcon from 'material-ui-icons/ThumbDown'
+import ThumbUpIcon from 'material-ui-icons/ThumbUp'
+import Tooltip from 'material-ui/Tooltip'
 import './StudentPage.css'
 
 //styling Paper
 const paperStyle = {
-  paddingTop: 100,
-  paddingBottom: 25,
-  paddingLeft: 25,
-  paddingRight: 25,
-  height: 500,
-  width: 1350,
-  margin: 16,
-  display: 'inline-block',
+  padding: 70,
+  height: 600,
+  width: 1250,
+  margin: 20
 }
 
 export const studentShape = PropTypes.shape({
@@ -31,16 +32,21 @@ export const studentShape = PropTypes.shape({
 })
 
 class StudentPage extends PureComponent {
-  constructor(props) {
-    super()
-    const { name, photo, evaluatedAt, remark, code } = props
-    this.state = {
-      name,
-      photo,
-      evaluatedAt,
-      remark,
-      code
-    }
+
+  state = {
+    name: "",
+    photo:"",
+    evaluatedAt:"",
+    remark:"",
+    code:"",
+    selected: false,
+  }
+
+  toggleClass() {
+    const currentState = this.state.selected
+    this.setState({
+      selected: !currentState
+    })
   }
 
   componentWillMount() {
@@ -82,13 +88,17 @@ class StudentPage extends PureComponent {
 
   renderEvaluations(evaluation) {
     const evaluationId = evaluation._id
+    const evaluationDate = (new Date(evaluation.evaluatedAt)).toDateString()
     return (
-      <Button
-        key={evaluationId}
-        variant="flat"
-        className="evaluation-code"
-        style={{ backgroundColor:this.checkColor(evaluation), margin:1 }}
-        onClick={() => this.handleClick(evaluationId)}></Button>
+      <Tooltip id="tooltip-bottom" title={evaluationDate} placement="bottom">
+        <Button
+          key={evaluationId}
+          variant="flat"
+          className="evaluation-code"
+          style={{ backgroundColor:this.checkColor(evaluation), margin:1 }}
+          onClick={() => this.handleClick(evaluationId)}>
+        </Button>
+      </Tooltip>
     )
   }
 
@@ -165,6 +175,7 @@ class StudentPage extends PureComponent {
   render() {
     if (!this.props.batch || !this.props.student) return null
     const { name, photo, evaluations } = this.props.student
+    const { selected } = this.state
     console.log(this.props)
 
     return(
@@ -172,10 +183,10 @@ class StudentPage extends PureComponent {
         <div className="student-details">
 
           <div className="photo">
-            { photo && <img src={ photo } alt="Student Images"/> }
+            { photo && <Avatar src={ photo } style={{width:200, height:200 }} alt="Student Images" /> }
           </div>
 
-          <div className="general">
+          <div className="info">
             <Typography variant="headline">{ name }</Typography>
             <Typography variant="title">
               Batch# {this.props.batch && this.props.batch.title}
@@ -185,69 +196,81 @@ class StudentPage extends PureComponent {
           <div className="all-evaluations">
             <Typography variant="title">All Evaluations</Typography>
             { evaluations && evaluations.map(this.renderEvaluations.bind(this)) }
+            <p className="notice">* hover the color block to see the evaluation date *</p>
           </div>
 
         </div>
 
       <div className="evaluation-form">
-
         <form onSubmit={this.saveStudent.bind(this)}>
-          <Typography variant="title">Daily Evaluation</Typography>
-          <div className="text-field">
+          <Typography variant="title">Daily Evaluation for
             <TextField
               id="evaluationDate"
-              label="Evaluation date"
               type="date"
               className="text-field"
               value={this.state.evaluatedAt}
               InputLabelProps={{
                 shrink: true,
               }}
-              style={{marginTop: 20, marginBottom: 20}}
+              style={{marginLeft: 10, bottom: 3}}
               onChange={this.updateEvaluatedAt.bind(this)}
               autoFocus
-              helperText="Default is set as today!"
-              fullWidth />
+              helperText="Default is set as today!"/>
+          </Typography>
 
-            <Typography variant="body1">Evaluation code for today</Typography>
+          <div className="today-evaluation">
+            <div className="color-btns">
+              <Tooltip id="tooltip-right" title="bad" placement="right">
+                <Button
+                  variant="raised"
+                  value="R"
+                  className={selected ? 'selected' : 'red'}
+                  style={{margin:10, borderRadius: 60, height: 85, backgroundColor:"#FF6B6B", color:"#FFFFFF"}}
+                  onClick={this.changeColor && this.toggleClass.bind(this)}>
+                  <ThumbDownIcon />
+                </Button>
+              </Tooltip>
 
-            <div className="color-buttons">
-              <Button
-                variant="raised"
-                value='R'
-                className="red"
-                style={{margin:5, backgroundColor:"#FF6B6B", color:"#FFFFFF"}}
-                onClick={this.changeColor}>Red</Button>
+              <Tooltip id="tooltip-right" title="average" placement="right">
+                <Button
+                  key="yellow"
+                  variant="raised"
+                  value="Y"
+                  className="yellow"
+                  style={{margin:10,  borderRadius: 60, height: 85, backgroundColor:"#FFE66D", color:"#FFFFFF" }}
+                  onClick={this.changeColor}>
+                  <ThumbsUpDownIcon />
+                </Button>
+              </Tooltip>
 
-              <Button
-                variant="raised"
-                value='Y'
-                className="yellow"
-                style={{margin:5, backgroundColor:"#FFE66D", color:"#FFFFFF" }}
-                onClick={this.changeColor}>Yellow</Button>
-
-              <Button
-                variant="raised"
-                value='G'
-                className="G"
-                style={{ margin:5, backgroundColor:"#4ECDC4", color:"#FFFFFF" }}
-                onClick={this.changeColor}>Green</Button>
+              <Tooltip id="tooltip-right" title="good" placement="right">
+                <Button
+                  variant="raised"
+                  value="G"
+                  className="green"
+                  style={{ margin:10,  borderRadius: 60, height: 85, backgroundColor:"#4ECDC4", color:"#FFFFFF" }}
+                  onClick={this.changeColor}>
+                  <ThumbUpIcon />
+                </Button>
+              </Tooltip>
             </div>
 
-            <TextField
-              id="remark"
-              className="remark"
-              label="Remarks"
-              InputLabelProps={{
-                shrink: true
-              }}
-              margin="normal"
-              value={ this.state.remark }
-              onChange={ this.updateRemark.bind(this) }
-              multiline
-              rowsMax="4"
-              placeholder="Today's remarks"
-              fullWidth />
+            <div className="remark">
+              <TextField
+                id="remark"
+                className="remark"
+                label="Remarks"
+                InputLabelProps={{
+                  shrink: true
+                }}
+                margin="normal"
+                value={ this.state.remark }
+                onChange={ this.updateRemark.bind(this) }
+                multiline
+                rowsMax="8"
+                placeholder="Today's remarks"
+                fullWidth />
+            </div>
           </div>
 
           <div className="submit-action">

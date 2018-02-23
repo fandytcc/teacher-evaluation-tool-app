@@ -1,17 +1,58 @@
-.text-field {
-  width: 200;
-  padding-left: 30;
+.student-details {
+  padding-left: 100px;
+  padding-right: 100px;
 }
 
-.student-details {
-  width: 550px;
-  height: 300px;
+.photo {
   float: left;
-  text-align: center;
+  margin-right: 50px;
+}
+
+.info {
+  margin-bottom: 20px;
+}
+
+.all-evaluations {
+  margin-bottom: 100px;
 }
 
 .evaluation-form {
-  width: 750px;
-  height: 300px;
-  float: right;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.color-btns {
+  float: left;
+  width: 100px;
+  margin-right: 50px;
+}
+
+.remark {
+  margin-left: 200px;
+}
+
+.submit-action {
+  margin-left: 200px;
+}
+
+.notice {
+  font-size: 10px;
+  font-style: italic;
+  color: #808080;
+}
+
+.red:hover {
+  width: 105%;
+}
+
+.yellow:hover {
+  width: 105%;
+}
+
+.green:hover {
+  width: 105%;
+}
+
+.selected {
+  width: 125%
 }

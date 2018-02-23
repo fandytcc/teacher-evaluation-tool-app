@@ -44,7 +44,9 @@ class StudentItem extends PureComponent {
           </Link>
         </header>
         <main>
-          { photo && <img src={ photo } alt="student"/> }
+          <Link to={`/batches/${batchId}/students/${_id}`}>
+            { photo && <img src={ photo } alt="student"/> }
+          </Link>
         </main>
         <footer>
           <p>Latest evaluation
