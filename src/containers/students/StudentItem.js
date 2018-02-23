@@ -6,18 +6,30 @@ import StudentPage, { studentShape } from './StudentPage'
 //material-ui & styling
 import Paper from 'material-ui/Paper'
 import Typography from 'material-ui/Typography'
+import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card'
 import './StudentItem.css'
 
 //styling paper
-const style = {
-  paddingTop: 16,
-  paddngBottom: 16,
-  paddingLeft: 40,
-  height: 300,
-  width: 250,
-  margin: 20,
-  textAlign: 'left',
-  display: 'inline-block',
+// const style = {
+//   paddingTop: 16,
+//   paddngBottom: 16,
+//   paddingLeft: 40,
+//   height: 300,
+//   width: 250,
+//   margin: 20,
+//   textAlign: 'left',
+//   display: 'inline-block',
+// }
+
+const cardStyles = {
+  card: {
+    width: 250,
+    margin: 20,
+    display: 'inline-block',
+  },
+  media: {
+    height: 200,
+  },
 }
 
 class StudentItem extends PureComponent {
@@ -37,23 +49,22 @@ class StudentItem extends PureComponent {
     const { _id, name, photo, batchId } = this.props
 
     return (
-      <Paper className="StudentItem" style={style} elevation={2}>
-        <header>
+      <Card className="StudentItem" style={cardStyles.card}>
+        <Link to={`/batches/${batchId}/students/${_id}`}>
+          { photo && <CardMedia style={cardStyles.media} image={ photo } title="student"/> }
+        </Link>
+        <CardContent>
           <Link to={`/batches/${batchId}/students/${_id}`}>
-            <Typography variant="title">{ name }</Typography>
+            <Typography variant="headline" component="h2">
+              { name }
+            </Typography>
           </Link>
-        </header>
-        <main>
-          <Link to={`/batches/${batchId}/students/${_id}`}>
-            { photo && <img src={ photo } alt="student"/> }
-          </Link>
-        </main>
-        <footer>
-          <p>Latest evaluation
-            <div className={this.classNames()}></div>
-          </p>
-        </footer>
-      </Paper>
+        </CardContent>
+        <CardActions>
+          <div className={this.classNames()}></div>
+          <p>Latest evaluation</p>
+        </CardActions>
+      </Card>
     )
   }
 }

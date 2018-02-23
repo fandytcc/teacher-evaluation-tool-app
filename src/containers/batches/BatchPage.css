@@ -18,3 +18,9 @@
   width: 500;
   padding-left: 30;
 }
+
+.students-wrapper {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+}
