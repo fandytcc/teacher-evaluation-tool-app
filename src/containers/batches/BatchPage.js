@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import StudentItem from '../../containers/students/StudentItem'
 import { studentShape } from '../../containers/students/StudentPage'
 import { fetchOneBatch } from '../../actions/batches/fetch'
@@ -10,11 +9,9 @@ import StudentEditor from '../../containers/students/StudentEditor'
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
 import Typography from 'material-ui/Typography'
-import { withStyles } from 'material-ui/styles'
 import Avatar from 'material-ui/Avatar'
 import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List'
 import Dialog, { DialogTitle } from 'material-ui/Dialog'
-import '../students/StudentItem.css'
 import './BatchPage.css'
 
 //styling Paper
@@ -121,10 +118,11 @@ class BatchPage extends PureComponent {
 
     const greenStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "G")
     const redStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "R")
+    const yellowStudents = students.filter(student => student.evaluations[student.evaluations.length-1].code === "Y")
 
     const greenPercentage = Math.round(greenStudents.length/batchSize*100)
     const redPercentage = Math.round(redStudents.length/batchSize*100)
-    const yellowPercentage = 100-greenPercentage-redPercentage
+    const yellowPercentage = Math.round(yellowStudents.length/batchSize*100)
 
     return (
       <article className="batch-page">
@@ -151,15 +149,15 @@ class BatchPage extends PureComponent {
 
           <div className="evaluation-overview">
             <div className="color-block" style={{width:`${greenPercentage}%`, background: "#4ECDC4"}}>
-              <p>{greenPercentage}%</p>
+              <p>{greenPercentage ? greenPercentage : '0'}%</p>
             </div>
 
             <div className="color-block" style={{width:`${yellowPercentage}%`, background: "#FFE66D"}}>
-              <p>{yellowPercentage}%</p>
+              <p>{yellowPercentage ? yellowPercentage : '0'}%</p>
             </div>
 
             <div className="color-block" style={{width:`${redPercentage}%`, background: "#FF6B6B"}}>
-              <p>{redPercentage}%</p>
+              <p>{redPercentage ? redPercentage : '0'}%</p>
             </div>
           </div>
         </header>

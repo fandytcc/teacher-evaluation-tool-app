@@ -42,12 +42,13 @@ class StudentPage extends PureComponent {
     selected: false,
   }
 
-  toggleClass() {
-    const currentState = this.state.selected
-    this.setState({
-      selected: !currentState
-    })
-  }
+//increase button size when selected
+  // toggleClass() {
+  //   const currentState = this.state.selected
+  //   this.setState({
+  //     selected: !currentState
+  //   })
+  // }
 
   componentWillMount() {
     const batchId = this.props.match.params.batchId
@@ -226,7 +227,7 @@ class StudentPage extends PureComponent {
                   value="R"
                   className={selected ? 'selected' : 'red'}
                   style={{margin:10, borderRadius: 60, height: 85, backgroundColor:"#FF6B6B", color:"#FFFFFF"}}
-                  onClick={this.changeColor && this.toggleClass.bind(this)}>
+                  onClick={this.changeColor}>
                   <ThumbDownIcon />
                 </Button>
               </Tooltip>
