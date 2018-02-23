@@ -36,7 +36,7 @@ class StudentPage extends PureComponent {
   state = {
     name: "",
     photo:"",
-    evaluatedAt:"",
+    evaluatedAt: new Date(),
     remark:"",
     code:"",
     selected: false,

@@ -55,7 +55,7 @@ class StudentItem extends PureComponent {
         </Link>
         <CardContent>
           <Link to={`/batches/${batchId}/students/${_id}`}>
-            <Typography variant="headline" component="h2">
+            <Typography variant="title">
               { name }
             </Typography>
           </Link>

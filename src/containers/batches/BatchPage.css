@@ -1,26 +1,37 @@
-.result-wrapper {
-  width: 650px;
-  height: 300px;
+.blocks-wrapper {
   float: left;
-  margin-left: 35px;
-  margin-top: 35px;
+  width: 700px;
+  margin: 50px;
+  margin-left: 150px;
   text-align: left;
 }
 
-.student-editor {
-  width: 650px;
-  height: 300px;
-  margin-top: 35px;
-  float: right;
+.evaluation-overview {
+  position: relative;
+  margin: 5px;
 }
 
-.text-field {
-  width: 500;
-  padding-left: 30;
+.color-block {
+  float: left;
+  display: flex;
+  border-radius: 5px;
+  margin-top: 30px;
+  justify-content: center;
+  flex-direction: row;
+  height: 50px;
+  color: #1A535C;
 }
 
 .students-wrapper {
-  margin: 10px;
+  float: left;
+  margin-left: 120px;
+  margin-right: 120px;
   display: flex;
   flex-direction: row;
+  justify-content: center;
+}
+
+.student-editor {
+  margin-top: 15px;
+  margin-left: 20px;
 }
