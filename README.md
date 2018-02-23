@@ -6,8 +6,8 @@ This app is to learn how to use front-end frameworks [React.js](https://github.c
 
 These colour codes are: GREEN, YELLOW, and RED. GREEN meaning all good and on track. YELLOW meaning slightly off-track. RED meaning needs extra attention. If a students is marked YELLOW or RED, teachers will have to fill in a remark. For GREEN students, teachers are allowed to omit the remark.
 
-<img width="1000" alt="screen shot 2018-02-22 at 15 39 30" src="https://user-images.githubusercontent.com/32798242/36544456-d2bf7cd6-17e6-11e8-90c4-fd9bd1fc202e.png">
-<img width="1000" alt="screen shot 2018-02-22 at 15 40 23" src="https://user-images.githubusercontent.com/32798242/36544454-d27aac64-17e6-11e8-9f6e-cd5de5aa20de.png">
+<img width="1000" alt="screen shot 2018-02-23 at 18 14 29" src="https://user-images.githubusercontent.com/32798242/36607025-b2fb4134-18c5-11e8-812d-5a83223f58aa.png">
+<img width="1000" alt="screen shot 2018-02-23 at 18 06 41" src="https://user-images.githubusercontent.com/32798242/36607031-b4528fce-18c5-11e8-928b-dde990218888.png">
 
 ## Algorithm
 From the class view, a teacher can click a button “ASK A QUESTION”. It shows the name and picture of a random student for the teacher to ask a question. RED students get ~47% of the questions YELLOW students ~32%, and GREEN students ~21%. 
